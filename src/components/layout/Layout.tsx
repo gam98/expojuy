@@ -1,0 +1,17 @@
+import { useEffect, useState } from 'react';
+import { Camera, Menu, MessageCircle, Ticket, Users, X } from 'lucide-react';
+import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
+import { camcomexLogo, horizontalLogo } from '../../assets/brand';
+
+const nav=[['/sobre-expojuy','La expo'],['/expositores','Expositores'],['/agenda','Agenda'],['/novedades','Novedades'],['/mapa','Mapa'],['/sponsors','Sponsors'],['/contacto','Contacto']];
+export function Layout(){const[open,setOpen]=useState(false);const[scrolled,setScrolled]=useState(false);const location=useLocation();useEffect(()=>{setOpen(false);window.scrollTo({top:0,behavior:window.matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'})},[location.pathname]);useEffect(()=>{const onScroll=()=>setScrolled(window.scrollY>20);onScroll();addEventListener('scroll',onScroll,{passive:true});return()=>removeEventListener('scroll',onScroll)},[]);return <>
+ <a className="skip-link" href="#contenido">Saltar al contenido</a>
+ <header className={`site-header ${scrolled?'is-scrolled':''}`}><div className="nav-wrap">
+  <Link to="/" className="brand" aria-label="ExpoJuy 2026, inicio"><img src={horizontalLogo} alt="ExpoJuy 2026" width={2614} height={1125} /></Link>
+  <nav className="desktop-nav" aria-label="Navegación principal">{nav.map(([to,label])=><NavLink key={to} to={to}>{label}</NavLink>)}</nav>
+  <Link className="header-cta" to="/entradas"><Ticket size={18}/>Conseguí tu entrada</Link>
+  <button className="menu-button" aria-label={open?'Cerrar menú':'Abrir menú'} aria-expanded={open} onClick={()=>setOpen(x=>!x)}>{open?<X/>:<Menu/>}</button>
+ </div>{open&&<nav className="mobile-nav" aria-label="Navegación móvil">{nav.map(([to,label])=><NavLink key={to} to={to}>{label}</NavLink>)}<Link className="btn btn-primary" to="/entradas">Conseguí tu entrada</Link></nav>}</header>
+ <main id="contenido"><Outlet/></main>
+ <footer className="footer"><div className="container footer-grid"><div><img src={horizontalLogo} alt="ExpoJuy 2026" width={2614} height={1125}/><p>Una plataforma de encuentro para el desarrollo productivo, la tecnología y el talento del Norte Argentino.</p><p className="demo-note">Sitio demostrativo. Contenidos sujetos a confirmación oficial.</p><div className="organizer"><span>Institución impulsora</span><img src={camcomexLogo} alt="Cámara de Comercio Exterior de Jujuy" width={1077} height={1008}/></div></div><div><h2>Explorá</h2><Link to="/agenda">Agenda</Link><Link to="/expositores">Expositores</Link><Link to="/preguntas-frecuentes">Preguntas frecuentes</Link><Link to="/entradas">Conseguí tu entrada</Link></div><div><h2>Contacto demo</h2><a href="mailto:hola@expojuy.example">hola@expojuy.example</a><p>San Salvador de Jujuy, Argentina</p><div className="socials"><a href="#social" aria-label="Instagram"><Camera/></a><a href="#social" aria-label="LinkedIn"><Users/></a><a href="#social" aria-label="Canal social"><MessageCircle/></a></div></div></div><div className="footer-bottom">© {new Date().getFullYear()} ExpoJuy 2026 · Propuesta digital de demostración</div></footer>
+ </>}
