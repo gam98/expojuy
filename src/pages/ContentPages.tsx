@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react';
-import { ArrowRight, Camera, CheckCircle2, ChevronDown, DoorOpen, Heart, Info, MapPin, MessageCircle, Presentation, Search, Send, Sparkles, Store, Users, Utensils } from 'lucide-react';
+import { ArrowRight, Camera, CheckCircle2, ChevronDown, DoorOpen, Heart, Info, MapPin, MessageCircle, Presentation, Search, Send, SlidersHorizontal, Sparkles, Store, Users, Utensils, X } from 'lucide-react';
 import { Link, useParams, useSearchParams } from 'react-router-dom';
 import { activities, exhibitors, sectorsList, sponsors, sponsorshipBenefits } from '../data/content';
 import { faqs } from '../data/faqs';
@@ -10,7 +10,130 @@ import { Badge, Button, EmptyState, LinkButton, PageHero, SectionHeading } from 
 
 export function AboutPage(){return <><PageHero title={aboutContent.hero.title}>{aboutContent.hero.description}</PageHero><section className="section"><div className="container split"><div><SectionHeading eyebrow="PROPÓSITO" title={aboutContent.purpose.title}/><p className="lead">{aboutContent.purpose.description}</p></div><div className="values-grid">{aboutContent.values.map(value=><div key={value}><Sparkles/><h3>{value}</h3><p>Valor conceptual sujeto a validación institucional.</p></div>)}</div></div></section><section className="section section-tint"><div className="container split"><div><SectionHeading eyebrow="IMPACTO REGIONAL" title={aboutContent.impact.title} copy={aboutContent.impact.description}/><p className="demo-note">{aboutContent.impact.disclaimer}</p></div><div className="impact-list">{aboutContent.impact.goals.map((item,index)=><div key={item}><span>{index+1}</span><h3>{item}</h3></div>)}</div></div></section><section className="section"><div className="container"><SectionHeading eyebrow="A QUIÉNES CONVOCA" title="Una exposición, múltiples formas de participar"/><div className="audience-grid">{aboutContent.audiences.map(audience=><article key={audience.title}><h3>{audience.title}</h3><p>{audience.description}</p></article>)}</div></div></section><section className="why-section"><div className="container split"><div><p className="eyebrow">POR QUÉ PARTICIPAR</p><h2>{aboutContent.participation.title}</h2></div><div><p>{aboutContent.participation.description}</p><div className="button-row"><LinkButton to="/entradas" variant="light">Conseguí tu entrada</LinkButton><LinkButton to="/contacto?tipo=expositor" variant="secondary">Quiero exponer</LinkButton></div></div></div></section><section className="section section-tint"><div className="container"><SectionHeading title="Una preparación abierta y progresiva"/><div className="timeline">{aboutContent.timeline.map((item,index)=><div key={item}><span>0{index+1}</span><h3>{item}</h3><p>Hito demostrativo a confirmar.</p></div>)}</div></div></section></>}
 
-export function ExhibitorsPage(){const[params,setParams]=useSearchParams();const q=params.get('q')??'';const sector=params.get('sector')??'Todos';const list=useMemo(()=>exhibitors.filter(e=>(sector==='Todos'||e.sector===sector)&&`${e.name} ${e.description} ${e.sector}`.toLowerCase().includes(q.toLowerCase())),[q,sector]);const[active,setActive]=useState<(typeof exhibitors)[number]|null>(null);const dialogRef=useRef<HTMLDivElement>(null);const previousFocus=useRef<HTMLElement|null>(null);const closeDialog=()=>{setActive(null);window.setTimeout(()=>previousFocus.current?.focus(),0)};useEffect(()=>{if(!active)return;const dialog=dialogRef.current;const focusable=dialog?.querySelectorAll<HTMLElement>('button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');focusable?.[0]?.focus();const onKey=(event:KeyboardEvent)=>{if(event.key==='Escape'){event.preventDefault();closeDialog()}if(event.key==='Tab'&&focusable?.length){const first=focusable[0],last=focusable[focusable.length-1];if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}}};document.addEventListener('keydown',onKey);return()=>document.removeEventListener('keydown',onKey)},[active]);const openDialog=(item:(typeof exhibitors)[number])=>{previousFocus.current=document.activeElement as HTMLElement;setActive(item)};const clearFilters=()=>setParams({});return <><PageHero title="Conocé a quienes hacen">Organizaciones demostrativas de múltiples sectores reunidas para mostrar, aprender y conectar.</PageHero><section className="section"><div className="container"><div className="filters"><label><span>Buscar expositor</span><div><Search/><input value={q} onChange={e=>{params.set('q',e.target.value);setParams(params)}} placeholder="Nombre, rubro o descripción"/></div></label><label><span>Filtrar por rubro</span><select value={sector} onChange={e=>{params.set('sector',e.target.value);setParams(params)}}><option>Todos</option>{sectorsList.map(s=><option key={s}>{s}</option>)}</select></label></div><p className="result-count">{list.length} resultados</p>{list.length?<div className="cards-grid">{list.map(e=><article className="card" key={e.id}><div className="monogram">{e.name.slice(0,2).toUpperCase()}</div><Badge>{e.sector}</Badge><h2>{e.name}</h2><p>{e.description}</p><small>{e.stand}</small><Button onClick={()=>openDialog(e)}>Ver perfil</Button></article>)}</div>:<div className="empty-state"><h3>No encontramos expositores</h3><p>Probá con otra búsqueda o limpiá los filtros.</p><Button onClick={clearFilters}>Limpiar filtros</Button></div>}</div></section>{active&&<div className="dialog-backdrop" role="presentation" onMouseDown={closeDialog}><section ref={dialogRef} className="dialog" role="dialog" aria-modal="true" aria-labelledby="profile-title" onMouseDown={e=>e.stopPropagation()}><button onClick={closeDialog} aria-label="Cerrar perfil">×</button><Badge>{active.sector}</Badge><h2 id="profile-title">{active.name}</h2><p>{active.description}</p><strong>{active.stand}</strong><LinkButton to="/contacto">Contactar</LinkButton></section></div>}</>}
+export function ExhibitorsPage(){
+  const[params,setParams]=useSearchParams();
+  const q=params.get('q')??'';
+  const sector=params.get('sector')??'Todos';
+
+  const list=useMemo(()=>exhibitors.filter(e=>(sector==='Todos'||e.sector===sector)&&`${e.name} ${e.description} ${e.sector}`.toLowerCase().includes(q.toLowerCase())),[q,sector]);
+  const[active,setActive]=useState<(typeof exhibitors)[number]|null>(null);
+  const dialogRef=useRef<HTMLDivElement>(null);
+  const previousFocus=useRef<HTMLElement|null>(null);
+
+  const closeDialog=()=>{setActive(null);window.setTimeout(()=>previousFocus.current?.focus(),0)};
+
+  useEffect(()=>{
+    if(!active)return;
+    const dialog=dialogRef.current;
+    const focusable=dialog?.querySelectorAll<HTMLElement>('button,a[href],input,select,textarea,[tabindex]:not([tabindex="-1"])');
+    focusable?.[0]?.focus();
+    const onKey=(event:KeyboardEvent)=>{
+      if(event.key==='Escape'){event.preventDefault();closeDialog()}
+      if(event.key==='Tab'&&focusable?.length){
+        const first=focusable[0],last=focusable[focusable.length-1];
+        if(event.shiftKey&&document.activeElement===first){event.preventDefault();last.focus()}
+        else if(!event.shiftKey&&document.activeElement===last){event.preventDefault();first.focus()}
+      }
+    };
+    document.addEventListener('keydown',onKey);
+    return()=>document.removeEventListener('keydown',onKey);
+  },[active]);
+
+  const openDialog=(item:(typeof exhibitors)[number])=>{
+    previousFocus.current=document.activeElement as HTMLElement;
+    setActive(item);
+  };
+
+  const handleSearchChange=(val:string)=>{
+    const next=new URLSearchParams(params);
+    if(val.trim()){next.set('q',val)}else{next.delete('q')}
+    setParams(next);
+  };
+
+  const handleSectorChange=(val:string)=>{
+    const next=new URLSearchParams(params);
+    if(val&&val!=='Todos'){next.set('sector',val)}else{next.delete('sector')}
+    setParams(next);
+  };
+
+  const clearFilters=()=>setParams({});
+
+  return <>
+    <PageHero title="Conocé a quienes hacen">Organizaciones demostrativas de múltiples sectores reunidas para mostrar, aprender y conectar.</PageHero>
+    <section className="section">
+      <div className="container">
+        <div className="exhibitors-filter-bar">
+          <div className="filter-search-box">
+            <Search className="filter-search-icon" aria-hidden="true"/>
+            <input
+              type="text"
+              className="filter-search-input"
+              value={q}
+              onChange={e=>handleSearchChange(e.target.value)}
+              placeholder="Buscar expositor por nombre, rubro o descripción..."
+              aria-label="Buscar expositor"
+            />
+          </div>
+
+          <div className="filter-sector-wrapper">
+            <select
+              className="filter-sector-select"
+              value={sector}
+              onChange={e=>handleSectorChange(e.target.value)}
+              aria-label="Filtrar por rubro"
+            >
+              <option value="Todos">Todos los rubros</option>
+              {sectorsList.map(s=>(
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+            <ChevronDown className="filter-sector-chevron" aria-hidden="true"/>
+          </div>
+        </div>
+
+        {list.length?(
+          <div className="cards-grid">
+            {list.map(e=>(
+              <article className="card" key={e.id}>
+                <div className="monogram">{e.name.slice(0,2).toUpperCase()}</div>
+                <Badge>{e.sector}</Badge>
+                <h2>{e.name}</h2>
+                <p>{e.description}</p>
+                <small>{e.stand}</small>
+                <Button onClick={()=>openDialog(e)}>Ver perfil</Button>
+              </article>
+            ))}
+          </div>
+        ):(
+          <div className="empty-state">
+            <h3>No encontramos expositores</h3>
+            <p>Probá con otra búsqueda o restablecé los filtros para ver el catálogo completo.</p>
+            <Button onClick={clearFilters}>Ver todos los expositores</Button>
+          </div>
+        )}
+      </div>
+    </section>
+    {active&&(
+      <div className="dialog-backdrop" role="presentation" onMouseDown={closeDialog}>
+        <section
+          ref={dialogRef}
+          className="dialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="profile-title"
+          onMouseDown={e=>e.stopPropagation()}
+        >
+          <button onClick={closeDialog} aria-label="Cerrar perfil">×</button>
+          <Badge>{active.sector}</Badge>
+          <h2 id="profile-title">{active.name}</h2>
+          <p>{active.description}</p>
+          <strong>{active.stand}</strong>
+          <LinkButton to="/contacto">Contactar</LinkButton>
+        </section>
+      </div>
+    )}
+  </>
+}
 
 export function AgendaPage(){const[q,setQ]=useState('');const[day,setDay]=useState('Todos');const[format,setFormat]=useState('Todos');const[category,setCategory]=useState('Todas');const[favorites,setFavorites]=useState<string[]>(()=>readStorage('expojuy-favorites',[],(value):value is string[]=>Array.isArray(value)&&value.every(item=>typeof item==='string')));const toggle=(id:string)=>setFavorites(x=>{const next=x.includes(id)?x.filter(i=>i!==id):[...x,id];localStorage.setItem('expojuy-favorites',JSON.stringify(next));return next});const dayOrder:Record<string,number>={'15 OCT':0,'16 OCT':1,'17 OCT':2};const timeValue=(value:string)=>{const[hours,minutes]=value.split(':').map(Number);return hours*60+minutes};const list=activities.filter(a=>(day==='Todos'||a.day===day)&&(format==='Todos'||a.format===format)&&(category==='Todas'||a.category===category)&&`${a.title} ${a.speakers} ${a.category}`.toLowerCase().includes(q.toLowerCase())).sort((a,b)=>(dayOrder[a.day]??99)-(dayOrder[b.day]??99)||timeValue(a.time)-timeValue(b.time));return <><PageHero title="Agenda para imaginar el próximo norte">Actividades de demostración organizadas en tres jornadas de intercambio, aprendizaje y vinculación.</PageHero><section className="section"><div className="container"><aside className="demo-banner">Programa demostrativo · Horarios y contenidos sujetos a confirmación. <Link to="/entradas">Conseguí tu entrada</Link></aside><div className="filters three"><label><span>Buscar actividad</span><input value={q} onChange={e=>setQ(e.target.value)} placeholder="Tema, speaker o actividad"/></label><label><span>Día</span><select value={day} onChange={e=>setDay(e.target.value)}><option>Todos</option>{['15 OCT','16 OCT','17 OCT'].map(x=><option key={x}>{x}</option>)}</select></label><label><span>Formato</span><select value={format} onChange={e=>setFormat(e.target.value)}><option>Todos</option>{['Charla','Panel','Workshop','Networking'].map(x=><option key={x}>{x}</option>)}</select></label><label><span>Categoría</span><select value={category} onChange={e=>setCategory(e.target.value)}><option>Todas</option>{['Innovación','Producción','Comunidad','Negocios'].map(x=><option key={x}>{x}</option>)}</select></label></div><p className="result-count"><Heart size={17}/> Mi agenda: {favorites.length} actividades</p>{list.length?<div className="agenda-list full">{list.map(a=><article key={a.id}><time>{a.day}<strong>{a.time}</strong></time><div><Badge>{a.category} · {a.format}</Badge><h2>{a.title}</h2><p>{a.description}</p><small>{a.duration} · {a.speakers.join(', ')} · {a.location}</small></div><button className={favorites.includes(a.id)?'favorite active':'favorite'} onClick={()=>toggle(a.id)} aria-label={`${favorites.includes(a.id)?'Quitar':'Agregar'} ${a.title} de mi agenda`}><Heart fill={favorites.includes(a.id)?'currentColor':'none'}/></button></article>)}</div>:<EmptyState title="No hay actividades con esos filtros" copy="Ajustá tu búsqueda para volver a explorar la agenda."/>}</div></section></>}
 

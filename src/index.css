@@ -51,3 +51,108 @@
 @media(max-width:390px){.sponsor-benefits>div{grid-template-columns:1fr}}
 .map-legend{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin-bottom:1rem;padding:.85rem 1rem;border:1px solid var(--border);border-radius:1rem;background:#fff}.map-legend>strong{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}.map-legend>div{display:flex;gap:1rem;flex-wrap:wrap}.map-legend span{display:flex;align-items:center;gap:.35rem;font-size:.72rem;color:var(--muted)}.map-legend svg{width:17px;color:var(--brand)}
 @media(max-width:700px){.map-legend{align-items:flex-start;flex-direction:column}.map-legend>div{display:grid;grid-template-columns:1fr 1fr}}
+
+/* Barra de filtros minimalista e integrada en el fondo, sin marcos pesados ni sombras */
+.exhibitors-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: transparent;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+/* Contenedor de búsqueda minimalista integrado */
+.filter-search-box {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 240px;
+}
+.filter-search-icon {
+  position: absolute;
+  left: 1rem;
+  width: 16px;
+  height: 16px;
+  color: #8b809a;
+  pointer-events: none;
+}
+.filter-search-input {
+  width: 100%;
+  height: 42px;
+  padding: 0.45rem 1rem 0.45rem 2.5rem;
+  border: 1px solid var(--border);
+  background: var(--subtle);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.88rem;
+  transition: all 0.2s ease;
+}
+.filter-search-input:focus {
+  background: #ffffff;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(132, 0, 216, 0.08);
+  outline: none;
+}
+.filter-search-input::placeholder {
+  color: #9287a1;
+}
+
+/* Contenedor y selector de rubro integrado con bordes suaves */
+.filter-sector-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+.filter-sector-select {
+  height: 42px;
+  padding: 0.45rem 2.3rem 0.45rem 1.1rem;
+  border: 1px solid var(--border);
+  background: var(--subtle);
+  border-radius: 999px;
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  appearance: none;
+  transition: all 0.2s ease;
+}
+.filter-sector-select:hover {
+  background: #ffffff;
+  border-color: #cfc2e2;
+}
+.filter-sector-select:focus {
+  background: #ffffff;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(132, 0, 216, 0.08);
+  outline: none;
+}
+.filter-sector-chevron {
+  position: absolute;
+  right: 0.85rem;
+  width: 14px;
+  height: 14px;
+  color: #8b809a;
+  pointer-events: none;
+}
+
+/* Adaptación responsive para pantallas medianas y móviles */
+@media(max-width: 768px) {
+  .exhibitors-filter-bar {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+  .filter-search-box {
+    width: 100%;
+    min-width: 100%;
+  }
+  .filter-sector-wrapper {
+    flex: 1;
+  }
+  .filter-sector-select {
+    width: 100%;
+  }
+}
+
