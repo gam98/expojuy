@@ -1,20 +1,36 @@
 @import 'tailwindcss';
+
+@theme {
+  --font-sans: 'Ambit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Ambit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 @font-face {
-  font-family: Ambit;
+  font-family: 'Ambit';
+  src: url('/fonts/Fuentes_Oficiales/Ambit-Light.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Ambit';
   src: url('/fonts/Fuentes_Oficiales/Ambit-Regular.otf') format('opentype');
   font-weight: 400;
+  font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: Ambit;
+  font-family: 'Ambit';
   src: url('/fonts/Fuentes_Oficiales/Ambit-SemiBold.otf') format('opentype');
   font-weight: 600;
+  font-style: normal;
   font-display: swap;
 }
 @font-face {
-  font-family: Ambit;
+  font-family: 'Ambit';
   src: url('/fonts/Fuentes_Oficiales/Ambit-Bold.otf') format('opentype');
   font-weight: 700;
+  font-style: normal;
   font-display: swap;
 }
 :root {
@@ -48,12 +64,17 @@ body {
   margin: 0;
   min-width: 320px;
   overflow-x: hidden;
+  font-family: 'Ambit', system-ui, sans-serif;
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Ambit', system-ui, sans-serif;
 }
 button,
 input,
 select,
 textarea {
   font: inherit;
+  font-family: 'Ambit', system-ui, sans-serif;
 }
 a {
   color: inherit;
@@ -209,14 +230,35 @@ svg {
 .footer a:hover {
   text-decoration: underline;
 }
+/* Redes sociales en el footer con el tono morado y blanco unificado de la marca */
 .socials {
   display: flex;
-  gap: 0.7rem;
+  gap: 0.75rem;
+  align-items: center;
 }
 .socials a {
-  padding: 0.55rem;
-  border: 1px solid #675775;
-  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 50%;
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.socials a:hover {
+  text-decoration: none;
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(132, 0, 216, 0.38);
+}
+.socials a:active {
+  transform: scale(0.96);
 }
 .footer-bottom {
   border-top: 1px solid #503d62;
@@ -378,18 +420,20 @@ svg {
   pointer-events: none;
 }
 .hero-logo {
-  width: 260px;
+  width: 295px;
   filter: drop-shadow(0 20px 48px rgba(0, 0, 0, 0.38));
   position: relative;
   z-index: 2;
   animation: heroLogoFloat 5s ease-in-out infinite;
+  cursor: pointer;
   transition:
-    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.35s ease;
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.4s ease;
 }
-.orbit-mark:hover .hero-logo {
-  transform: scale(1.05);
-  filter: drop-shadow(0 26px 55px rgba(44, 184, 203, 0.45));
+/* Hover limpio sobre el icono: se agranda suavemente sin filtros de color distorsivos */
+.hero-logo:hover {
+  transform: scale(1.09);
+  filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.46));
 }
 @keyframes heroLogoFloat {
   0%,
@@ -398,6 +442,52 @@ svg {
   }
   50% {
     transform: translateY(-7px);
+  }
+}
+/* Estilos y micro-pulsaciones de las 3 ondas */
+.hero-wave {
+  transform-origin: 270px 270px;
+}
+.wave-outer {
+  animation: wavePulseOuter 6s ease-in-out infinite;
+}
+.wave-mid {
+  animation: wavePulseMid 5s ease-in-out infinite 0.8s;
+}
+.wave-inner {
+  animation: wavePulseInner 4.5s ease-in-out infinite 1.6s;
+}
+@keyframes wavePulseOuter {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.025);
+    opacity: 0.95;
+  }
+}
+@keyframes wavePulseMid {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+@keyframes wavePulseInner {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.035);
+    opacity: 1;
   }
 }
 .date-card {
@@ -977,21 +1067,118 @@ svg {
   font-weight: 700;
 }
 .agenda-list.full article {
-  grid-template-columns: 120px 1fr auto;
+  grid-template-columns: 135px 1fr auto;
 }
 .agenda-list.full time {
   display: grid;
-  font-size: 0.8rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.01em;
+  color: var(--muted);
 }
 .agenda-list.full time strong {
-  font-size: 1.5rem;
+  font-size: 1.55rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-top: 0.2rem;
+  color: var(--brand);
+}
+/* Indicador y tarjeta de actividad en vivo (High-End Refinement) */
+.agenda-list article.is-live {
+  position: relative;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(255, 241, 242, 0.75) 0%, #ffffff 42%, rgba(255, 245, 245, 0.4) 100%);
+  border: 1px solid rgba(225, 29, 72, 0.22);
+  border-left: 4px solid #e11d48;
+  border-top: 1px solid rgba(225, 29, 72, 0.22);
+  box-shadow:
+    0 12px 30px -8px rgba(225, 29, 72, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.02),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  padding: 1.6rem 1.75rem;
+  margin: 0.85rem -1.75rem;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.agenda-list article.is-live:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 16px 36px -8px rgba(225, 29, 72, 0.14),
+    0 4px 12px rgba(0, 0, 0, 0.03),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+.agenda-list article.is-live time strong {
+  color: #c01048;
+}
+.agenda-list article.is-live .favorite {
+  background: #ffffff;
+  border-color: rgba(225, 29, 72, 0.2);
+}
+.agenda-list article.is-live .favorite:hover {
+  background: #fff1f2;
+  color: #e11d48;
+  border-color: rgba(225, 29, 72, 0.35);
+}
+.badge.badge-live {
+  background: #fff1f2;
+  color: #be123c;
+  border: 1px solid rgba(225, 29, 72, 0.28);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  box-shadow: 0 1px 3px rgba(225, 29, 72, 0.08);
+}
+.live-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #e11d48;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+.live-dot::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: 50%;
+  background: rgba(225, 29, 72, 0.45);
+  animation: liveDotPulse 2s cubic-bezier(0.2, 0.8, 0.2, 1) infinite;
+}
+@keyframes liveDotPulse {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  65% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+  }
 }
 .favorite {
   border: 1px solid var(--border);
   background: #fff;
   border-radius: 50%;
-  padding: 0.7rem;
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
   color: var(--muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.favorite:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: scale(1.05);
 }
 .favorite.active {
   background: #f3e6fc;
@@ -1017,81 +1204,321 @@ svg {
 .news-grid.listing .featured .news-art {
   height: 320px;
 }
+/* Layout principal de la sección del mapa y panel lateral de detalle */
 .map-layout {
   display: grid;
-  grid-template-columns: 1.7fr 0.8fr;
+  grid-template-columns: 1.85fr 1fr;
   gap: 2rem;
+  align-items: start;
 }
-.interactive-map {
-  min-height: 590px;
-  background: #f5f1fb;
-  padding: 1rem;
-  display: grid;
-  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
-  gap: 0.7rem;
+
+/* Marco arquitectónico con estética de plano y borde doble satinado */
+.interactive-map-frame {
+  background: var(--subtle);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  padding: 1.25rem;
+  box-shadow: 0 12px 36px rgba(36, 17, 60, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  position: relative;
+  overflow: hidden;
 }
+
+/* Encabezado técnico del marco del plano con brújula conceptual */
+.map-frame-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px dashed rgba(132, 0, 216, 0.18);
+}
+.map-frame-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--brand);
+  text-transform: uppercase;
+}
+.map-frame-legend {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  opacity: 0.75;
+}
+
+/* Indicador táctil sutil para scroll horizontal en pantallas móviles */
+.interactive-map-scroll-hint {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.45rem 1rem;
+  background: rgba(132, 0, 216, 0.07);
+  border: 1px solid rgba(132, 0, 216, 0.16);
+  color: var(--brand);
+  border-radius: 999px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+/* Contenedor del plano conceptual: en desktop visible para evitar desbordes y scrollbars indeseados */
+.interactive-map-scroll {
+  width: 100%;
+  overflow: visible;
+}
+.interactive-map-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.interactive-map-scroll::-webkit-scrollbar-track {
+  background: rgba(132, 0, 216, 0.05);
+  border-radius: 999px;
+}
+.interactive-map-scroll::-webkit-scrollbar-thumb {
+  background: rgba(132, 0, 216, 0.25);
+  border-radius: 999px;
+}
+.interactive-map-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--brand);
+}
+
+/* Grilla espacial interactiva del predio (Desktop: 4 columnas x 5 filas) */
+.interactive-map {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(5, minmax(78px, 1fr));
+  gap: 0.75rem;
+  min-height: 460px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Estilo táctil y háptico para cada pabellón y zona del mapa */
 .map-zone {
   background: #dfccf6;
   border: 1px solid #c2a1ec;
-  border-radius: 0.7rem;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--ink);
+  border-radius: 1rem;
+  padding: 0.85rem 0.75rem;
+  cursor: pointer;
+  position: relative;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  padding: 0.5rem;
+  gap: 0.45rem;
+  text-align: center;
+  touch-action: manipulation;
+  transition:
+    transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.22s ease,
+    border-color 0.22s ease,
+    opacity 0.25s ease,
+    filter 0.25s ease;
 }
-.map-zone.active {
-  background: var(--brand);
-  color: #fff;
-  box-shadow: var(--shadow);
+
+/* Contenedor central de icono y título de la zona */
+.map-zone .zone-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  width: 100%;
 }
 .map-zone svg {
-  width: 16px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
 }
-.mz1 {
-  grid-area: 1/1/3/3;
+.map-zone .zone-name {
+  font-size: clamp(0.74rem, 1.05vw, 0.84rem);
+  font-weight: 700;
+  line-height: 1.22;
+  color: var(--ink);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
-.mz2 {
-  grid-area: 1/3/4/5;
+
+/* Pill sutil de categoría */
+.map-zone .zone-pill {
+  display: none;
+  font-size: 0.62rem;
+  font-weight: 600;
+  opacity: 0.75;
 }
-.mz3 {
-  grid-area: 3/1/5/2;
+
+/* Efectos hover interactivos sin desborde horizontal */
+.map-zone:hover:not(.active) {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(132, 0, 216, 0.16);
+  border-color: var(--brand);
+  filter: brightness(1.03);
+  z-index: 2;
 }
-.mz4 {
-  grid-area: 3/2/5/3;
+.map-zone:hover svg {
+  transform: scale(1.15);
+}
+
+/* Estado activo de la zona seleccionada */
+.map-zone.active {
+  background: var(--brand) !important;
+  border-color: var(--brand) !important;
+  color: #fff !important;
+  box-shadow: 0 12px 28px rgba(132, 0, 216, 0.32);
+  transform: translateY(-2px);
+  z-index: 3;
+}
+.map-zone.active .zone-name,
+.map-zone.active .zone-pill {
+  color: #fff !important;
+  opacity: 1;
+}
+
+/* Estado atenuado al filtrar por categoría para preservar la geometría del predio */
+.map-zone.dimmed {
+  opacity: 0.28;
+  filter: grayscale(60%);
+}
+.map-zone.dimmed:hover {
+  opacity: 0.88;
+  filter: grayscale(0%);
+}
+
+/* Coordenadas fijas espaciales de la grilla arquitectónica (Desktop) */
+.mz-innovacion {
+  grid-area: 1 / 1 / 3 / 3;
+}
+.mz-expositores {
+  grid-area: 1 / 3 / 4 / 5;
+}
+.mz-auditorio {
+  grid-area: 3 / 1 / 5 / 2;
+}
+.mz-sabores {
+  grid-area: 3 / 2 / 5 / 3;
   background: #c9f1f4;
 }
-.mz5 {
-  grid-area: 4/3/5/4;
+.mz-acceso {
+  grid-area: 4 / 3 / 5 / 4;
   background: #b8eef2;
 }
-.mz6 {
-  grid-area: 4/4/5/5;
+.mz-institucional {
+  grid-area: 4 / 4 / 5 / 5;
   background: #d9f5f6;
 }
+.mz-sanitarios {
+  grid-area: 5 / 1 / 6 / 2;
+  background: #d9f5f6;
+}
+.mz-estacionamiento {
+  grid-area: 5 / 2 / 6 / 4;
+  background: #d9f5f6;
+}
+.mz-info {
+  grid-area: 5 / 4 / 6 / 5;
+  background: #b8eef2;
+}
+
+/* Panel lateral de información y detalles de la zona seleccionada */
 .map-panel {
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 2rem;
+  padding: 1.85rem;
+  background: #fff;
   align-self: start;
   position: sticky;
   top: 100px;
+  box-shadow: 0 10px 32px rgba(36, 17, 60, 0.04);
+}
+.map-panel-eyebrow-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+.map-panel-code {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--brand);
+  background: #f3ebfc;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
 }
 .map-panel .eyebrow {
   color: var(--brand);
+  margin: 0;
 }
-.map-panel h2 {
-  font-size: 2rem;
+.map-panel-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin: 0.75rem 0 1rem;
 }
-.map-panel p,
-.map-panel li {
+.map-panel-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 0.85rem;
+  background: #f1e7fe;
+  color: var(--brand);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+.map-panel-header h2 {
+  font-size: 1.45rem;
+  margin: 0 0 0.35rem;
+  line-height: 1.22;
+}
+.map-panel-desc {
   color: var(--muted);
   line-height: 1.6;
+  font-size: 0.92rem;
+  margin: 0 0 1rem;
+}
+.map-panel-features {
+  list-style: none;
+  padding: 0;
+  margin: 1.1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.map-panel-features li {
+  position: relative;
+  padding-left: 1.35rem;
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.map-panel-features li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--brand);
+  font-weight: 700;
+}
+.map-panel-actions {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border);
+}
+.map-panel-status {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--success);
 }
 .sponsor-level {
   margin-bottom: 3rem;
@@ -1161,6 +1588,21 @@ svg {
   padding: 0.85rem;
   background: #fff;
 }
+.form-card textarea {
+  resize: none;
+}
+.form-card select,
+.checkout-form select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%234e455a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1.25rem center;
+  background-size: 1.15rem;
+  padding-right: 2.75rem;
+  cursor: pointer;
+}
 .check {
   display: flex !important;
   grid-column: 1/-1;
@@ -1171,15 +1613,132 @@ svg {
   width: auto !important;
   margin-top: 0.2rem;
 }
-.quick-links {
-  display: grid;
-}
-.quick-links a {
+/* ==========================================================================
+   COLUMNA DERECHA DE CONTACTO - TIPOGRAFÍA OFICIAL AMBIT & ESTILO ORIGINAL
+   ========================================================================== */
+
+.contact-aside {
   display: flex;
+  flex-direction: column;
+}
+
+/* Título con el estilo tipográfico de PageHero en peso regular sin exceso de bold */
+.contact-aside-title {
+  font-family: 'Ambit', system-ui, sans-serif;
+  font-size: clamp(2.85rem, 5.2vw, 4.2rem);
+  line-height: 0.88;
+  letter-spacing: -0.065em;
+  font-weight: 400;
+  color: var(--ink);
+  margin: 0 0 2rem;
+  max-width: 440px;
+}
+
+/* Lista interactiva de canales de contacto con divisores finos */
+.contact-quick-links {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 2.5rem;
+}
+
+.contact-quick-link-btn {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
-  padding: 1rem 0;
+  width: 100%;
+  padding: 1.15rem 0;
+  border: 0;
   border-top: 1px solid var(--border);
+  background: transparent;
+  font-family: 'Ambit', system-ui, sans-serif;
+  font-size: 1.05rem;
   font-weight: 700;
+  color: var(--ink);
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-quick-link-btn:hover {
+  color: var(--brand);
+  padding-left: 0.4rem;
+}
+
+.contact-quick-link-btn.is-selected {
+  color: var(--brand);
+  padding-left: 0.4rem;
+}
+
+.contact-quick-link-arrow {
+  color: var(--ink);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.contact-quick-link-btn:hover .contact-quick-link-arrow,
+.contact-quick-link-btn.is-selected .contact-quick-link-arrow {
+  color: var(--brand);
+  transform: translateX(4px);
+}
+
+/* Sección de redes sociales minimalista */
+.contact-social {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: none;
+}
+
+.contact-social-heading {
+  font-family: 'Ambit', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 0.85rem;
+  letter-spacing: -0.015em;
+}
+
+.contact-social-icons {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+/* Botones circulares con paleta morada/tinta oficial y blanco */
+.contact-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: #ffffff;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.contact-social-btn:hover {
+  background: var(--brand);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(132, 0, 216, 0.25);
+}
+
+.contact-social-note {
+  font-family: 'Ambit', system-ui, sans-serif;
+  font-size: 0.82rem;
+  color: var(--muted);
+  line-height: 1.45;
+  margin: 0 0 0.25rem;
+}
+
+.demo-note {
+  font-family: 'Ambit', system-ui, sans-serif;
+  font-size: 0.82rem !important;
+  color: var(--muted);
+  line-height: 1.45;
 }
 .success-message {
   padding: 3rem;
@@ -1701,7 +2260,7 @@ svg {
     margin-block: 1.5rem;
   }
   .hero-logo {
-    width: min(180px, 46vw);
+    width: min(205px, 50vw);
   }
   .date-card {
     position: static;
@@ -1729,11 +2288,19 @@ svg {
   }
   .agenda-list article,
   .agenda-list.full article {
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 80px 1fr;
+    gap: 1.25rem;
   }
   .agenda-list article > a,
   .agenda-list .favorite {
     grid-column: 2;
+    justify-self: end;
+  }
+  .agenda-list article.is-live {
+    margin: 0.75rem 0;
+    padding: 1.25rem 1rem;
+    border-radius: 14px;
+    border-left-width: 3.5px;
   }
   .logo-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1874,32 +2441,399 @@ svg {
   margin-bottom: 2rem;
 }
 .chip-filters button {
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.15rem;
   border: 1px solid var(--border);
   background: #fff;
   border-radius: 999px;
-  padding: 0.65rem 0.9rem;
   color: var(--muted);
   font-weight: 700;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.chip-filters button:hover {
+  border-color: var(--brand);
+  color: var(--brand);
 }
 .chip-filters button.active {
   background: var(--brand);
   border-color: var(--brand);
   color: #fff;
 }
-.interactive-map:has(.mz7) {
-  grid-template-rows: repeat(5, 1fr);
+/* Adaptación espacial responsiva del mapa interactivo con scroll horizontal para móviles */
+@media (max-width: 860px) {
+  .map-layout {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .map-panel {
+    position: static;
+    top: auto;
+    padding: 1.5rem;
+  }
 }
-.mz7 {
-  grid-area: 5/1/6/2;
-  background: #d9f5f6;
+
+@media (max-width: 768px) {
+  .interactive-map-frame {
+    padding: 0.85rem;
+    gap: 0.75rem;
+  }
+  .interactive-map-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    padding-bottom: 0.5rem;
+  }
+  .interactive-map-scroll-hint {
+    display: flex;
+  }
+  /* En formato celular el mapa mantiene su perspectiva de plano original (4x5) con scroll horizontal ergonómico */
+  .interactive-map {
+    min-width: 620px;
+    min-height: 440px;
+  }
 }
-.mz8 {
-  grid-area: 5/2/6/4;
-  background: #d9f5f6;
+
+/* Sección rediseñada de Cómo llegar con estética High-End Bento y Double-Bezel */
+.venue-location-section {
+  border-top: 1px solid var(--border);
+  padding-top: 4.5rem;
+  margin-top: 3.5rem;
 }
-.mz9 {
-  grid-area: 5/4/6/5;
-  background: #b8eef2;
+
+/* Cabecera editorial con especificaciones tácticas */
+.venue-location-head {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 2.5rem;
+}
+.venue-location-lead h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+  margin: 0.6rem 0 0.8rem;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+.venue-location-lead p {
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 1rem;
+  max-width: 580px;
+  margin: 0;
+}
+.venue-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: #f1e7fe;
+  color: var(--brand);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Fila de especificaciones tácticas (dirección, horarios, GPS) */
+.venue-tactical-specs {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 1.25rem;
+  box-shadow: 0 4px 18px rgba(36, 17, 60, 0.03);
+}
+.tactical-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  color: var(--muted);
+}
+.tactical-item svg {
+  color: var(--brand);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+.tactical-label {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  opacity: 0.7;
+}
+.tactical-value {
+  display: block;
+  font-size: 0.88rem;
+  color: var(--ink);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+/* Grilla Bento asimétrica: tarjetas de transporte a la izquierda y mapa a la derecha */
+.venue-bento-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.35fr;
+  gap: 2rem;
+  align-items: stretch;
+}
+
+/* Contenedor vertical de tarjetas de transporte con distribución equilibrada */
+.venue-transport-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+  justify-content: space-between;
+}
+
+/* Tarjeta individual de opción de transporte de alto impacto */
+.venue-transport-card {
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 1.35rem;
+  padding: 1.45rem 1.6rem;
+  box-shadow: 0 4px 20px rgba(36, 17, 60, 0.035);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transition:
+    transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+.venue-transport-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(132, 0, 216, 0.35);
+  box-shadow: 0 12px 30px rgba(132, 0, 216, 0.09);
+}
+.transport-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.85rem;
+}
+.transport-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 0.85rem;
+  background: #f3ebfd;
+  color: var(--brand);
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.venue-transport-card:hover .transport-icon-wrap {
+  background: var(--brand);
+  color: #ffffff;
+  transform: scale(1.05);
+}
+.transport-badge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--brand);
+  background: rgba(132, 0, 216, 0.07);
+  border: 1px solid rgba(132, 0, 216, 0.14);
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+}
+.venue-transport-card h3 {
+  font-size: 1.22rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.5rem;
+  color: var(--ink);
+  line-height: 1.25;
+}
+.transport-lead {
+  font-size: 0.98rem;
+  color: #453957;
+  line-height: 1.55;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Arquitectura Double-Bezel (Doppelrand) para el contenedor del mapa embebido */
+.venue-map-bezel {
+  background: #f6f2fc;
+  border: 1px solid var(--border);
+  border-radius: 2rem;
+  padding: 0.75rem;
+  box-shadow: 0 16px 40px rgba(36, 17, 60, 0.08);
+  display: flex;
+  min-height: 480px;
+}
+.venue-map-core {
+  background: #fff;
+  border: 1px solid rgba(132, 0, 216, 0.12);
+  border-radius: calc(2rem - 0.5rem);
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.8);
+  min-height: 460px;
+}
+.venue-map-core iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 460px;
+}
+
+/* Chip flotante sobre el mapa */
+.map-floating-chip {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.1rem;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(132, 0, 216, 0.18);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 8px 24px rgba(36, 17, 60, 0.12);
+  pointer-events: none;
+}
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #168b60;
+  box-shadow: 0 0 0 3px rgba(22, 139, 96, 0.25);
+  animation: pulseGreen 2s infinite ease-in-out;
+}
+@keyframes pulseGreen {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.25); opacity: 0.8; }
+}
+
+/* Barra flotante inferior de acciones del mapa */
+.map-floating-actions {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 1.1rem;
+  right: 1.1rem;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+/* Botón con arquitectura Button-in-Button según la skill de diseño */
+.btn-island-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.45rem 0.55rem 0.45rem 1.15rem;
+  background: var(--ink);
+  color: #fff;
+  border-radius: 999px;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(36, 17, 60, 0.25);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-island-primary:hover {
+  background: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(132, 0, 216, 0.35);
+}
+.btn-island-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
+  transition: transform 0.2s ease;
+}
+.btn-island-primary:hover .btn-island-icon {
+  transform: translate(2px, -2px);
+}
+
+/* Botón secundario flotante de acción rápida */
+.btn-island-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.65rem 1.1rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  color: var(--ink);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(36, 17, 60, 0.1);
+  transition: all 0.2s ease;
+}
+.btn-island-secondary:hover {
+  border-color: var(--brand);
+  color: var(--brand);
+  transform: translateY(-2px);
+}
+
+/* Responsividad para la sección Cómo llegar en pantallas medianas y móviles */
+@media (max-width: 900px) {
+  .venue-location-head {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+  .venue-bento-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  .venue-map-bezel {
+    min-height: 400px;
+  }
+  .venue-map-core,
+  .venue-map-core iframe {
+    min-height: 380px;
+  }
+}
+@media (max-width: 600px) {
+  .venue-location-section {
+    padding-top: 3.5rem;
+    margin-top: 2.5rem;
+  }
+  .map-floating-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-island-primary,
+  .btn-island-secondary {
+    justify-content: center;
+    width: 100%;
+  }
+  .map-floating-chip {
+    left: 0.75rem;
+    right: 0.75rem;
+    top: 0.75rem;
+    justify-content: center;
+    font-size: 0.7rem;
+  }
 }
 /* Contador de cuenta regresiva en vivo glassmórfico con segundero e indicador pulsante */
 .countdown {
@@ -1985,7 +2919,7 @@ svg {
     transform: scale(0.75);
   }
 }
-/* Animaciones de entrada escalonadas de izquierda a derecha y derecha a izquierda */
+/* Animaciones de entrada escalonadas de izquierda a derecha, derecha a izquierda y hacia arriba */
 @keyframes heroFadeInLeft {
   from {
     opacity: 0;
@@ -2006,6 +2940,16 @@ svg {
     transform: translateX(0);
   }
 }
+@keyframes heroFadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(32px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 .hero-anim-left {
   opacity: 0;
   animation: heroFadeInLeft 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -2013,6 +2957,10 @@ svg {
 .hero-anim-right {
   opacity: 0;
   animation: heroFadeInRight 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-anim-up {
+  opacity: 0;
+  animation: heroFadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 .hero-delay-1 {
   animation-delay: 0.08s;
@@ -2025,6 +2973,26 @@ svg {
 }
 .hero-delay-4 {
   animation-delay: 0.5s;
+}
+.hero-delay-5 {
+  animation-delay: 0.64s;
+}
+.hero-delay-6 {
+  animation-delay: 0.78s;
+}
+
+/* Control de revelado por scroll para todo el resto del Home */
+.reveal-group .hero-anim-left,
+.reveal-group .hero-anim-right,
+.reveal-group .hero-anim-up {
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+.reveal-group.is-revealed .hero-anim-left,
+.reveal-group.is-revealed .hero-anim-right,
+.reveal-group.is-revealed .hero-anim-up {
+  animation-play-state: running;
 }
 .key-values {
   display: grid;
@@ -2303,13 +3271,14 @@ svg {
 }
 .filter-search-input {
   width: 100%;
-  height: 42px;
-  padding: 0.45rem 1rem 0.45rem 2.5rem;
+  height: 44px;
+  padding: 0 1rem 0 2.5rem;
   border: 1px solid var(--border);
   background: var(--subtle);
   border-radius: 999px;
   color: var(--ink);
   font-size: 0.88rem;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 .filter-search-input:focus {
@@ -2330,8 +3299,8 @@ svg {
   flex-shrink: 0;
 }
 .filter-sector-select {
-  height: 42px;
-  padding: 0.45rem 2.3rem 0.45rem 1.1rem;
+  height: 44px;
+  padding: 0 2.3rem 0 1.15rem;
   border: 1px solid var(--border);
   background: var(--subtle);
   border-radius: 999px;
@@ -2340,6 +3309,7 @@ svg {
   font-weight: 600;
   cursor: pointer;
   appearance: none;
+  box-sizing: border-box;
   transition: all 0.2s ease;
 }
 .filter-sector-select:hover {
