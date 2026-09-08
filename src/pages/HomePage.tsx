@@ -7,7 +7,7 @@ import { Badge, LinkButton, SectionHeading } from '../components/ui';
 import { camcomexLogo } from '../assets/brand';
 import { Countdown } from '../components/Countdown';
 import { HeroOrbit } from '../components/HeroOrbit';
-import { expoValores } from '../assets/valores';
+import { ValuesCarousel } from '../components/ValuesCarousel';
 
 const icons = [Gem, Leaf, Globe2, Cpu, Building2, Atom, Factory, Sparkles];
 
@@ -135,18 +135,8 @@ export function HomePage() {
               </LinkButton>
             </div>
           </div>
-          <div className="values-grid hero-anim-right hero-delay-2" aria-label="Valores de la propuesta">
-            {expoValores.map((v, index) => (
-              <div key={v.id} className={`value-card hero-anim-up hero-delay-${(index % 3) + 1}`}>
-                <img src={v.image} alt={v.title} className="value-card-img" loading="lazy" />
-                <div className="value-card-overlay" />
-                <div className="value-card-content">
-                  <span className="value-card-num">{v.num}</span>
-                  <strong className="value-card-title">{v.title}</strong>
-                  <span className="value-card-sub">{v.subtitle}</span>
-                </div>
-              </div>
-            ))}
+          <div className="hero-anim-right hero-delay-2">
+            <ValuesCarousel />
           </div>
         </div>
       </section>
