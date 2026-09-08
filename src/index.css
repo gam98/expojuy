@@ -444,20 +444,54 @@ svg {
     transform: translateY(-7px);
   }
 }
-/* Estilos y micro-pulsaciones de las 3 ondas */
-.hero-wave {
+/* Rotación pura y pulsaciones fluidas de las 3 ondas (sin conflictos de renderizado en recarga) */
+.orbit-track {
   transform-origin: 270px 270px;
+  transform-box: view-box;
 }
-.wave-outer {
-  animation: wavePulseOuter 6s ease-in-out infinite;
+.orbit-track-outer {
+  animation: heroOrbitSpinCw 40s linear infinite;
 }
-.wave-mid {
-  animation: wavePulseMid 5s ease-in-out infinite 0.8s;
+.orbit-track-mid {
+  animation: heroOrbitSpinCcw 28s linear infinite;
 }
-.wave-inner {
-  animation: wavePulseInner 4.5s ease-in-out infinite 1.6s;
+.orbit-track-inner {
+  animation: heroOrbitSpinCw 18s linear infinite;
 }
-@keyframes wavePulseOuter {
+
+.orbit-pulse {
+  transform-origin: 270px 270px;
+  transform-box: view-box;
+}
+.orbit-pulse-outer {
+  animation: heroOrbitPulseOuter 6s ease-in-out infinite;
+}
+.orbit-pulse-mid {
+  animation: heroOrbitPulseMid 5s ease-in-out infinite 0.8s;
+}
+.orbit-pulse-inner {
+  animation: heroOrbitPulseInner 4.5s ease-in-out infinite 1.6s;
+}
+
+@keyframes heroOrbitSpinCw {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes heroOrbitSpinCcw {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+
+@keyframes heroOrbitPulseOuter {
   0%,
   100% {
     transform: scale(1);
@@ -468,7 +502,8 @@ svg {
     opacity: 0.95;
   }
 }
-@keyframes wavePulseMid {
+
+@keyframes heroOrbitPulseMid {
   0%,
   100% {
     transform: scale(1);
@@ -479,7 +514,8 @@ svg {
     opacity: 1;
   }
 }
-@keyframes wavePulseInner {
+
+@keyframes heroOrbitPulseInner {
   0%,
   100% {
     transform: scale(1);
@@ -892,24 +928,65 @@ svg {
   background: linear-gradient(135deg, var(--brand), var(--secondary));
   color: #fff;
   padding: 4.5rem 0;
+  position: relative;
+  overflow: hidden;
 }
-.final-cta .container {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
+.final-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.12), transparent 60%);
+  pointer-events: none;
+}
+.final-cta .container.final-cta-container {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
+  position: relative;
+  z-index: 1;
 }
-.final-cta > div > svg {
-  width: 54px;
-  height: 54px;
+.final-cta-text {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  max-width: 680px;
+}
+.final-cta-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  color: #fff;
+  opacity: 0.95;
 }
 .final-cta h2 {
-  font-size: clamp(2rem, 4vw, 3.8rem);
+  font-size: clamp(1.85rem, 3.8vw, 3.4rem);
   margin: 0;
-  letter-spacing: -0.04em;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
 }
-.final-cta .button-row {
+.final-cta-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  flex-wrap: nowrap;
   margin: 0;
+  flex-shrink: 0;
+}
+.final-cta-actions .btn {
+  white-space: nowrap;
+  padding: 0.95rem 1.65rem;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.final-cta-actions .btn svg {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.final-cta-actions .btn:hover svg {
+  transform: translateX(4px);
 }
 .page-hero {
   padding: 6rem 0 5rem;
@@ -2348,8 +2425,19 @@ svg {
     justify-content: flex-start;
     padding-bottom: 0.6rem;
   }
-  .final-cta .container {
-    grid-template-columns: 1fr;
+  .final-cta .container.final-cta-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+  .final-cta-actions {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .final-cta-actions .btn {
+    flex: 1;
+    min-width: 140px;
+    justify-content: center;
   }
   .footer-grid {
     grid-template-columns: 1fr;
@@ -3035,29 +3123,118 @@ svg {
 .reveal-group.is-revealed .hero-anim-up {
   animation-play-state: running;
 }
-.key-values {
+/* Cuadrícula de Valores con Imágenes (Sección 2 Home) */
+.values-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  border-top: 1px solid var(--border);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.1rem;
 }
-.key-values div {
+.value-card {
+  position: relative;
+  height: 155px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #1a0d2e;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease;
+  cursor: default;
+}
+.value-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.value-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(20, 10, 35, 0.25) 0%,
+    rgba(20, 10, 35, 0.65) 45%,
+    rgba(15, 6, 28, 0.94) 100%
+  );
+  transition: background 0.35s ease;
+}
+.value-card-content {
+  position: absolute;
+  inset: 0;
+  padding: 1.1rem 1.15rem;
   display: flex;
-  gap: 1rem;
-  align-items: center;
-  padding: 1.2rem 0;
-  border-bottom: 1px solid var(--border);
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 1;
 }
-.key-values div:nth-child(odd) {
-  border-right: 1px solid var(--border);
-  padding-right: 1rem;
+.value-card-num {
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
 }
-.key-values div:nth-child(even) {
-  padding-left: 1rem;
-}
-.key-values span {
-  color: var(--brand);
-  font-size: 0.72rem;
+.value-card-title {
+  color: #ffffff;
+  font-size: 1.05rem;
   font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+.value-card-sub {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.76rem;
+  line-height: 1.35;
+  margin-top: 0.2rem;
+  display: block;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+.value-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px -8px rgba(132, 0, 216, 0.35), 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.38);
+}
+.value-card:hover .value-card-img {
+  transform: scale(1.08);
+}
+.value-card:hover .value-card-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(20, 10, 35, 0.15) 0%,
+    rgba(20, 10, 35, 0.55) 45%,
+    rgba(15, 6, 28, 0.9) 100%
+  );
+}
+@media (max-width: 900px) {
+  .values-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 500px) {
+  .values-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+  .value-card {
+    height: 145px;
+  }
+  .value-card-content {
+    padding: 0.85rem 0.9rem;
+  }
+  .value-card-title {
+    font-size: 0.95rem;
+  }
+  .value-card-sub {
+    font-size: 0.7rem;
+  }
 }
 .impact-list {
   display: grid;
@@ -3197,15 +3374,7 @@ svg {
   .audience-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .key-values {
-    grid-template-columns: 1fr;
-  }
-  .key-values div:nth-child(odd) {
-    border-right: 0;
-  }
-  .key-values div:nth-child(even) {
-    padding-left: 0;
-  }
+
 }
 @media (max-width: 390px) {
   .audience-grid {

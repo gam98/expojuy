@@ -7,6 +7,7 @@ import { Badge, LinkButton, SectionHeading } from '../components/ui';
 import { camcomexLogo } from '../assets/brand';
 import { Countdown } from '../components/Countdown';
 import { HeroOrbit } from '../components/HeroOrbit';
+import { expoValores } from '../assets/valores';
 
 const icons = [Gem, Leaf, Globe2, Cpu, Building2, Atom, Factory, Sparkles];
 
@@ -134,18 +135,16 @@ export function HomePage() {
               </LinkButton>
             </div>
           </div>
-          <div className="key-values hero-anim-right hero-delay-2" aria-label="Valores de la propuesta">
-            {[
-              'Innovación',
-              'Tecnología',
-              'Producción',
-              'Desarrollo',
-              'Vinculación empresarial',
-              'Economía del conocimiento',
-            ].map((value, index) => (
-              <div key={value} className={`hero-anim-right hero-delay-${(index % 3) + 1}`}>
-                <span>0{index + 1}</span>
-                <strong>{value}</strong>
+          <div className="values-grid hero-anim-right hero-delay-2" aria-label="Valores de la propuesta">
+            {expoValores.map((v, index) => (
+              <div key={v.id} className={`value-card hero-anim-up hero-delay-${(index % 3) + 1}`}>
+                <img src={v.image} alt={v.title} className="value-card-img" loading="lazy" />
+                <div className="value-card-overlay" />
+                <div className="value-card-content">
+                  <span className="value-card-num">{v.num}</span>
+                  <strong className="value-card-title">{v.title}</strong>
+                  <span className="value-card-sub">{v.subtitle}</span>
+                </div>
               </div>
             ))}
           </div>
@@ -316,17 +315,17 @@ export function HomePage() {
 
       {/* SECCIÓN 10: LLAMADO FINAL A LA ACCIÓN (FINAL CTA) */}
       <section className="final-cta reveal-group">
-        <div className="container">
-          <div className="hero-anim-left hero-delay-1" style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
-            <Users style={{ width: '40px', height: '40px', flexShrink: 0 }} />
+        <div className="container final-cta-container">
+          <div className="hero-anim-left hero-delay-1 final-cta-text">
+            <Users className="final-cta-icon" />
             <div>
               <p className="eyebrow">VOS TAMBIÉN SOS PARTE</p>
               <h2>El próximo encuentro empieza hoy.</h2>
             </div>
           </div>
-          <div className="button-row hero-anim-right hero-delay-2">
+          <div className="button-row hero-anim-right hero-delay-2 final-cta-actions">
             <LinkButton to="/entradas" variant="light">
-              Conseguí tu entrada
+              Entradas <ArrowRight />
             </LinkButton>
             <LinkButton to="/contacto?tipo=expositor" variant="secondary">
               Quiero exponer
