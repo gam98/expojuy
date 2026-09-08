@@ -566,6 +566,11 @@ export function NewsPage() {
                 key={n.id}
               >
                 <div className="news-art">
+                  <img
+                    src={n.image.src}
+                    alt={n.image.alt}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
                   <span>0{i + 1}</span>
                 </div>
                 <Badge>{n.category}</Badge>

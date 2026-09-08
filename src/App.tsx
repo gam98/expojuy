@@ -1,2 +1,6 @@
 import { AppRouter } from './app/router';
-export function App() { return <AppRouter />; }
+import { ChatAssistant } from './components/chatbot/ChatAssistant';
+
+export function App() {
+  return <><AppRouter /><ChatAssistant /></>;
+}
