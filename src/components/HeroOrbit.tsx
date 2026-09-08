@@ -1,15 +1,39 @@
 import { isologo } from '../assets/brand';
 
 /**
- * Componente HeroOrbit: Sistema orbital vectorial de gran escala y alta fidelidad.
- * Presenta anillos concéntricos aumentados de tamaño que rotan continuamente en direcciones opuestas,
- * con satélites luminosos, marcas cardinales de radar tecnológico y micro-flotación del isologo central.
+ * Genera el trazado SVG de una onda armónica circular continua.
+ * Crea un recorrido cerrado con ondulaciones sinuoidales suaves.
+ */
+function generateWavePath(cx: number, cy: number, r: number, amplitude: number, crests: number, points = 120): string {
+  let d = '';
+  for (let i = 0; i <= points; i++) {
+    const angle = (i / points) * Math.PI * 2;
+    const currentR = r + amplitude * Math.sin(angle * crests);
+    const x = cx + currentR * Math.cos(angle);
+    const y = cy + currentR * Math.sin(angle);
+    if (i === 0) {
+      d += `M ${x.toFixed(2)} ${y.toFixed(2)}`;
+    } else {
+      d += ` L ${x.toFixed(2)} ${y.toFixed(2)}`;
+    }
+  }
+  return d + ' Z';
+}
+
+// Exactamente 3 ondas concéntricas con frecuencias armónicas diferenciadas
+const wavePathInner = generateWavePath(270, 270, 160, 4.2, 6);
+const wavePathMid = generateWavePath(270, 270, 210, 5.8, 8);
+const wavePathOuter = generateWavePath(270, 270, 258, 7.5, 10);
+
+/**
+ * Componente HeroOrbit: Sistema de 3 ondas concéntricas fluidas y armónicas.
+ * Presenta 3 ondas sinuoidales en rotación y pulsación continua que abrazan el isologotipo de ExpoJuy.
  */
 export function HeroOrbit() {
   return (
     <div
       className="orbit-mark hero-anim-right hero-delay-1"
-      aria-label="Isologotipo de ExpoJuy con órbitas interactivas continuas"
+      aria-label="Isologotipo de ExpoJuy con 3 ondas fluidas interactivas"
     >
       <svg
         className="orbit-svg"
@@ -19,24 +43,28 @@ export function HeroOrbit() {
         aria-hidden="true"
       >
         <defs>
-          <linearGradient id="orbitCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          {/* Gradientes armónicos para las 3 ondas */}
+          <linearGradient id="waveCyanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#2cb8cb" stopOpacity="0.95" />
-            <stop offset="45%" stopColor="#57d5df" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#744be8" stopOpacity="0.9" />
+            <stop offset="60%" stopColor="#57d5df" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#2cb8cb" stopOpacity="0.3" />
           </linearGradient>
-          <linearGradient id="orbitLavenderGrad" x1="0%" y1="100%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#b07af4" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#2cb8cb" stopOpacity="0.45" />
+
+          <linearGradient id="waveCyanLavenderGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stopColor="#57d5df" stopOpacity="0.85" />
+            <stop offset="50%" stopColor="#b07af4" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#2cb8cb" stopOpacity="0.4" />
           </linearGradient>
-          <filter id="orbitGlowCyan" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="4.5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-          <filter id="orbitGlowLavender" x="-40%" y="-40%" width="180%" height="180%">
-            <feGaussianBlur stdDeviation="5.5" result="blur" />
+
+          <linearGradient id="waveLavenderGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#b07af4" stopOpacity="0.85" />
+            <stop offset="55%" stopColor="#744be8" stopOpacity="0.75" />
+            <stop offset="100%" stopColor="#57d5df" stopOpacity="0.35" />
+          </linearGradient>
+
+          {/* Filtro de resplandor sutil para las ondas */}
+          <filter id="waveGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="3.5" result="blur" />
             <feMerge>
               <feMergeNode in="blur" />
               <feMergeNode in="SourceGraphic" />
@@ -44,111 +72,79 @@ export function HeroOrbit() {
           </filter>
         </defs>
 
-        {/* Guías circulares estáticas tenues */}
-        <circle cx="270" cy="270" r="255" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
-        <circle cx="270" cy="270" r="195" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-        <circle cx="270" cy="270" r="145" stroke="rgba(44,184,203,0.16)" strokeWidth="1" />
-        <circle cx="270" cy="270" r="105" stroke="rgba(176,122,244,0.12)" strokeWidth="1" strokeDasharray="4 8" />
-
-        {/* Anillo exterior aumentado: rotación horaria continua con segmentos tecnológicos y satélites */}
-        <g className="orbit-group-outer">
+        {/* 1. ONDA EXTERIOR: Rotación horaria pausada y ondulación expansiva */}
+        <g className="hero-wave wave-outer">
           <animateTransform
             attributeName="transform"
             type="rotate"
             from="0 270 270"
             to="360 270 270"
-            dur="24s"
+            dur="36s"
             repeatCount="indefinite"
           />
-          <circle
-            cx="270"
-            cy="270"
-            r="255"
-            stroke="rgba(87,213,223,0.6)"
+          <path
+            d={wavePathOuter}
+            stroke="url(#waveLavenderGrad)"
             strokeWidth="2"
-            strokeDasharray="50 65 140 55 25 50"
             strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.75"
           />
-          {/* Satélites luminosos sobre la órbita mayor */}
-          <circle cx="525" cy="270" r="6" fill="#2cb8cb" filter="url(#orbitGlowCyan)" />
-          <circle cx="15" cy="270" r="4.5" fill="#b07af4" filter="url(#orbitGlowLavender)" />
-          <circle cx="270" cy="15" r="3" fill="#ffffff" opacity="0.85" />
-          <circle cx="270" cy="525" r="3" fill="#ffffff" opacity="0.85" />
+          {/* Nodos de energía lumínica sobre la cresta exterior */}
+          <circle cx="528" cy="270" r="4" fill="#b07af4" filter="url(#waveGlow)" />
+          <circle cx="270" cy="12" r="3" fill="#57d5df" opacity="0.8" />
         </g>
 
-        {/* Anillo medio aumentado: rotación antihoraria continua con gradiente vivo y marcas de radar */}
-        <g className="orbit-group-mid">
+        {/* 2. ONDA MEDIA: Rotación antihoraria suave y gradiente bicromático */}
+        <g className="hero-wave wave-mid">
           <animateTransform
             attributeName="transform"
             type="rotate"
             from="360 270 270"
             to="0 270 270"
-            dur="16s"
+            dur="26s"
             repeatCount="indefinite"
           />
-          <circle
-            cx="270"
-            cy="270"
-            r="195"
-            stroke="url(#orbitCyanGrad)"
-            strokeWidth="2.5"
-            strokeDasharray="160 50 80 50"
+          <path
+            d={wavePathMid}
+            stroke="url(#waveCyanLavenderGrad)"
+            strokeWidth="2.2"
             strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.85"
+            filter="url(#waveGlow)"
           />
-          <circle cx="270" cy="75" r="6.5" fill="#57d5df" filter="url(#orbitGlowCyan)" />
-          <circle cx="270" cy="465" r="5.5" fill="#b07af4" filter="url(#orbitGlowLavender)" />
-          {/* Muescas cardinales que giran visiblemente */}
-          <line x1="270" y1="65" x2="270" y2="85" stroke="#57d5df" strokeWidth="2.5" strokeLinecap="round" />
-          <line x1="270" y1="455" x2="270" y2="475" stroke="#b07af4" strokeWidth="2.5" strokeLinecap="round" />
-          <line x1="65" y1="270" x2="85" y2="270" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" />
-          <line x1="455" y1="270" x2="475" y2="270" stroke="rgba(255,255,255,0.8)" strokeWidth="2" strokeLinecap="round" />
+          {/* Nodos de energía sobre la onda media */}
+          <circle cx="270" cy="60" r="4.5" fill="#57d5df" filter="url(#waveGlow)" />
+          <circle cx="270" cy="480" r="3.5" fill="#b07af4" opacity="0.9" />
         </g>
 
-        {/* Anillo interior: rotación horaria con resplandor turquesa */}
-        <g className="orbit-group-inner">
+        {/* 3. ONDA INTERIOR: Rotación horaria rítmica con brillo cian cercano */}
+        <g className="hero-wave wave-inner">
           <animateTransform
             attributeName="transform"
             type="rotate"
             from="0 270 270"
             to="360 270 270"
-            dur="10s"
+            dur="18s"
             repeatCount="indefinite"
           />
-          <circle
-            cx="270"
-            cy="270"
-            r="145"
-            stroke="url(#orbitLavenderGrad)"
-            strokeWidth="2.6"
-            strokeDasharray="90 40 45 40"
+          <path
+            d={wavePathInner}
+            stroke="url(#waveCyanGrad)"
+            strokeWidth="2.5"
             strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.95"
+            filter="url(#waveGlow)"
           />
-          <circle cx="372" cy="168" r="5" fill="#2cb8cb" filter="url(#orbitGlowCyan)" />
-          <circle cx="168" cy="372" r="3.5" fill="#ffffff" opacity="0.9" />
-        </g>
-
-        {/* Anillo núcleo: rotación antihoraria suave */}
-        <g className="orbit-group-core">
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="360 270 270"
-            to="0 270 270"
-            dur="7s"
-            repeatCount="indefinite"
-          />
-          <circle
-            cx="270"
-            cy="270"
-            r="105"
-            stroke="rgba(87,213,223,0.5)"
-            strokeWidth="1.8"
-            strokeDasharray="16 20"
-          />
+          {/* Nodos de energía sobre la onda interior */}
+          <circle cx="430" cy="270" r="4" fill="#2cb8cb" filter="url(#waveGlow)" />
+          <circle cx="110" cy="270" r="3" fill="#ffffff" opacity="0.85" />
         </g>
       </svg>
 
-      {/* Logotipo central aumentado con micro-flotación */}
+      {/* Logotipo central de ExpoJuy aumentado con ampliación suave al interactuar */}
       <img
         className="hero-logo"
         src={isologo}
