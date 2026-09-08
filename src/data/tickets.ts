@@ -5,10 +5,10 @@ export interface CartItem { ticket:TicketType; quantity:number }
 export interface OrderSummary { items:CartItem[]; subtotal:number; serviceFee:number; total:number }
 export interface PaymentResult { orderId:string; status:PaymentStatus; createdAt:string; summary:OrderSummary }
 export const tickets: TicketType[] = [
- {id:'general',name:'Pase general',price:12000,description:'Acceso integral para vivir la exposición.',benefits:['Ingreso al predio','Charlas abiertas','Espacios productivos'],validity:'3 días · fecha demostrativa',availability:'Cupos limitados'},
- {id:'day',name:'Pase por día',price:5500,description:'Una jornada para recorrer y conectar.',benefits:['Ingreso por una jornada','Agenda del día','Zona gastronómica'],validity:'1 día a elección · demo',availability:'Disponible'},
- {id:'student',name:'Pase estudiantes',price:3500,description:'Propuesta especial para comunidades educativas.',benefits:['Ingreso general','Laboratorios abiertos','Certificado demo'],validity:'3 días · sujeto a acreditación',availability:'Cupos limitados'},
- {id:'corporate',name:'Pase institucional',price:28000,description:'Acceso para equipos y organizaciones.',benefits:['Hasta 4 asistentes','Ronda de vinculación','Espacio networking'],validity:'3 días · paquete demo',availability:'Disponible'},
+ {id:'general',name:'Pase general',price:12000,description:'Acceso integral para vivir la exposición.',benefits:['Ingreso al predio','Charlas abiertas','Espacios productivos'],validity:'Válido durante los tres días del evento',availability:'Cupos limitados'},
+ {id:'day',name:'Pase por día',price:5500,description:'Una jornada para recorrer y conectar.',benefits:['Ingreso por una jornada','Agenda del día','Zona gastronómica'],validity:'Válido para una jornada a elección',availability:'Disponible'},
+ {id:'student',name:'Pase estudiantes',price:3500,description:'Propuesta especial para comunidades educativas.',benefits:['Ingreso general','Laboratorios abiertos','Certificado de participación'],validity:'Válido durante los tres días, con acreditación',availability:'Cupos limitados'},
+ {id:'corporate',name:'Pase institucional',price:28000,description:'Acceso para equipos y organizaciones.',benefits:['Hasta 4 asistentes','Ronda de vinculación','Espacio de networking'],validity:'Válido durante los tres días del evento',availability:'Disponible'},
 ];
 export const calculateOrder=(items:CartItem[]):OrderSummary=>{const subtotal=items.reduce((sum,item)=>sum+item.ticket.price*item.quantity,0);const serviceFee=Math.round(subtotal*.04);return{items,subtotal,serviceFee,total:subtotal+serviceFee}};
 export interface PaymentGateway { createPayment(order:OrderSummary,status:PaymentStatus):Promise<PaymentResult> }

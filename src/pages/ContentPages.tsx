@@ -72,7 +72,7 @@ export function AboutPage() {
               <div key={value}>
                 <Sparkles />
                 <h3>{value}</h3>
-                <p>Valor conceptual sujeto a validación institucional.</p>
+                <p>Un valor que guía la construcción colectiva de ExpoJuy.</p>
               </div>
             ))}
           </div>
@@ -86,7 +86,6 @@ export function AboutPage() {
               title={aboutContent.impact.title}
               copy={aboutContent.impact.description}
             />
-            <p className="demo-note">{aboutContent.impact.disclaimer}</p>
           </div>
           <div className="impact-list">
             {aboutContent.impact.goals.map((item, index) => (
@@ -147,7 +146,7 @@ export function AboutPage() {
               <div key={item}>
                 <span>0{index + 1}</span>
                 <h3>{item}</h3>
-                <p>Hito demostrativo a confirmar.</p>
+                <p>Una etapa clave en el camino hacia ExpoJuy 2026.</p>
               </div>
             ))}
           </div>
@@ -240,7 +239,7 @@ export function ExhibitorsPage() {
   return (
     <>
       <PageHero title="Conocé a quienes hacen">
-        Organizaciones demostrativas de múltiples sectores reunidas para
+        Organizaciones de múltiples sectores reunidas para
         mostrar, aprender y conectar.
       </PageHero>
       <section className="section">
@@ -428,7 +427,7 @@ export function AgendaPage() {
   return (
     <>
       <PageHero title="Agenda para imaginar el próximo norte">
-        Actividades de demostración organizadas en cuatro jornadas de
+        Actividades organizadas en cuatro jornadas de
         intercambio, aprendizaje y vinculación.
       </PageHero>
       <section className="section">
@@ -602,14 +601,12 @@ export function NewsDetailPage() {
       <article className="article container">
         <Link to="/novedades">← Volver a novedades</Link>
         <p>
-          Este artículo forma parte de una propuesta editorial demostrativa. La
-          versión definitiva incorporará información, testimonios y recursos
-          institucionales validados.
+          ExpoJuy pone en conversación a quienes producen, investigan,
+          emprenden y transforman en Jujuy y la región.
         </p>
         <p>
-          ExpoJuy busca poner en conversación a quienes producen, investigan,
-          emprenden y transforman. Los contenidos reales serán publicados cuando
-          la organización confirme la agenda oficial.
+          Esta nota reúne novedades, historias y recursos para acompañar la
+          experiencia de quienes participan del encuentro.
         </p>
       </article>
     </>
@@ -681,7 +678,7 @@ export function VenueMapPage() {
   return (
     <>
       <PageHero title="Un mapa para explorar conexiones">
-        Recorré una vista conceptual del predio y anticipá tu experiencia.
+        Recorré los espacios del predio y anticipá tu experiencia.
       </PageHero>
       <section className="section">
         <div className="container">
@@ -717,7 +714,7 @@ export function VenueMapPage() {
               <div className="interactive-map-scroll">
                 <div
                   className="interactive-map"
-                  aria-label="Mapa conceptual del predio"
+                  aria-label="Mapa del predio"
                 >
                   {zones.map((z) => {
                     const Icon = zoneIcons[z[0]] ?? MapPin
@@ -757,7 +754,7 @@ export function VenueMapPage() {
                 </div>
               </div>
               <p className="map-panel-desc">
-                Área demostrativa pensada para orientar a visitantes y facilitar
+                Área pensada para orientar a visitantes y facilitar
                 recorridos accesibles en el predio ferial.
               </p>
               <ul className="map-panel-features">
@@ -941,7 +938,7 @@ export function SponsorsPage() {
                   ) : (
                     <div
                       className="sponsor-logo-lockup"
-                      aria-label={`${sponsor.name} — logo de muestra`}
+                      aria-label={`${sponsor.name} — logo`}
                     >
                       <span className="sponsor-logo-mark" aria-hidden="true">
                         {mark.monogram}
@@ -953,13 +950,6 @@ export function SponsorsPage() {
                 </article>
               )
             })}
-          </div>
-          <div className="sponsors-note" role="note">
-            <Info size={18} aria-hidden="true" />
-            <p>
-              Las marcas de esta maqueta son representativas y reemplazables por
-              logos oficiales autorizados.
-            </p>
           </div>
         </div>
       </section>
@@ -1027,8 +1017,7 @@ export function ContactPage() {
   return (
     <>
       <PageHero title="Abramos una conversación">
-        Contanos cómo te gustaría participar. Este formulario no realiza un
-        envío real.
+        Contanos cómo te gustaría participar.
       </PageHero>
       <section className="section">
         <div className="container form-layout">
@@ -1044,8 +1033,8 @@ export function ContactPage() {
                 role="status"
               >
                 <CheckCircle2 />
-                <h2>Mensaje de demostración registrado</h2>
-                <p>No se envió información a ningún servidor.</p>
+                <h2>Mensaje recibido</h2>
+                <p>Gracias por escribirnos. Nuestro equipo se comunicará con vos.</p>
                 <Button
                   type="button"
                   onClick={() => {
@@ -1173,7 +1162,7 @@ export function ContactPage() {
                       errors.consent ? 'contact-consent-error' : undefined
                     }
                   />{' '}
-                  Acepto ser contactado en el marco de esta demostración.
+                  Acepto ser contactado por el equipo de ExpoJuy 2026.
                 </label>
                 {errors.consent && (
                   <p
@@ -1246,12 +1235,9 @@ export function ContactPage() {
                 </a>
               </div>
               <p className="contact-social-note">
-                Enlaces sociales demostrativos hasta confirmar los perfiles oficiales.
+                Seguinos para conocer las novedades de ExpoJuy 2026.
               </p>
             </section>
-            <p className="demo-note">
-              Datos mock reemplazables: hola@expojuy.example · San Salvador de Jujuy
-            </p>
           </aside>
         </div>
       </section>
@@ -1270,8 +1256,7 @@ export function FaqPage() {
   return (
     <>
       <PageHero title="Preguntas frecuentes">
-        Información demostrativa para resolver las primeras dudas sobre la
-        experiencia.
+        Información para resolver las primeras dudas sobre la experiencia.
       </PageHero>
       <section className="section">
         <div className="container narrow">
