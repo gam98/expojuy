@@ -72,75 +72,57 @@ export function HeroOrbit() {
           </filter>
         </defs>
 
-        {/* 1. ONDA EXTERIOR: Rotación horaria pausada y ondulación expansiva */}
-        <g className="hero-wave wave-outer">
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 270 270"
-            to="360 270 270"
-            dur="36s"
-            repeatCount="indefinite"
-          />
-          <path
-            d={wavePathOuter}
-            stroke="url(#waveLavenderGrad)"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.75"
-          />
-          {/* Nodos de energía lumínica sobre la cresta exterior */}
-          <circle cx="528" cy="270" r="4" fill="#b07af4" filter="url(#waveGlow)" />
-          <circle cx="270" cy="12" r="3" fill="#57d5df" opacity="0.8" />
+        {/* 1. ONDA EXTERIOR: Rotación horaria continua y ondulación expansiva */}
+        <g className="orbit-track orbit-track-outer">
+          <g className="orbit-pulse orbit-pulse-outer">
+            <path
+              d={wavePathOuter}
+              stroke="url(#waveLavenderGrad)"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.75"
+            />
+            {/* Nodos de energía lumínica sobre la cresta exterior */}
+            <circle cx="528" cy="270" r="4" fill="#b07af4" filter="url(#waveGlow)" />
+            <circle cx="270" cy="12" r="3" fill="#57d5df" opacity="0.8" />
+          </g>
         </g>
 
         {/* 2. ONDA MEDIA: Rotación antihoraria suave y gradiente bicromático */}
-        <g className="hero-wave wave-mid">
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="360 270 270"
-            to="0 270 270"
-            dur="26s"
-            repeatCount="indefinite"
-          />
-          <path
-            d={wavePathMid}
-            stroke="url(#waveCyanLavenderGrad)"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.85"
-            filter="url(#waveGlow)"
-          />
-          {/* Nodos de energía sobre la onda media */}
-          <circle cx="270" cy="60" r="4.5" fill="#57d5df" filter="url(#waveGlow)" />
-          <circle cx="270" cy="480" r="3.5" fill="#b07af4" opacity="0.9" />
+        <g className="orbit-track orbit-track-mid">
+          <g className="orbit-pulse orbit-pulse-mid">
+            <path
+              d={wavePathMid}
+              stroke="url(#waveCyanLavenderGrad)"
+              strokeWidth="2.2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.85"
+              filter="url(#waveGlow)"
+            />
+            {/* Nodos de energía sobre la onda media */}
+            <circle cx="270" cy="60" r="4.5" fill="#57d5df" filter="url(#waveGlow)" />
+            <circle cx="270" cy="480" r="3.5" fill="#b07af4" opacity="0.9" />
+          </g>
         </g>
 
         {/* 3. ONDA INTERIOR: Rotación horaria rítmica con brillo cian cercano */}
-        <g className="hero-wave wave-inner">
-          <animateTransform
-            attributeName="transform"
-            type="rotate"
-            from="0 270 270"
-            to="360 270 270"
-            dur="18s"
-            repeatCount="indefinite"
-          />
-          <path
-            d={wavePathInner}
-            stroke="url(#waveCyanGrad)"
-            strokeWidth="2.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            opacity="0.95"
-            filter="url(#waveGlow)"
-          />
-          {/* Nodos de energía sobre la onda interior */}
-          <circle cx="430" cy="270" r="4" fill="#2cb8cb" filter="url(#waveGlow)" />
-          <circle cx="110" cy="270" r="3" fill="#ffffff" opacity="0.85" />
+        <g className="orbit-track orbit-track-inner">
+          <g className="orbit-pulse orbit-pulse-inner">
+            <path
+              d={wavePathInner}
+              stroke="url(#waveCyanGrad)"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              opacity="0.95"
+              filter="url(#waveGlow)"
+            />
+            {/* Nodos de energía sobre la onda interior */}
+            <circle cx="430" cy="270" r="4" fill="#2cb8cb" filter="url(#waveGlow)" />
+            <circle cx="110" cy="270" r="3" fill="#ffffff" opacity="0.85" />
+          </g>
         </g>
       </svg>
 
