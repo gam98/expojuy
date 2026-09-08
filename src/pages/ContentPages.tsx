@@ -37,12 +37,12 @@ import {
   exhibitors,
   sectorsList,
   sponsors,
-  sponsorshipBenefits,
 } from '../data/content'
 import { faqs } from '../data/faqs'
 import { news } from '../data/news'
 import { readStorage } from '../lib/storage'
 import { aboutContent } from '../data/about'
+import { camcomexLogo } from '../assets/brand'
 import {
   Badge,
   Button,
@@ -566,6 +566,11 @@ export function NewsPage() {
                 key={n.id}
               >
                 <div className="news-art">
+                  <img
+                    src={n.image.src}
+                    alt={n.image.alt}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
                   <span>0{i + 1}</span>
                 </div>
                 <Badge>{n.category}</Badge>
@@ -880,58 +885,99 @@ export function VenueMapPage() {
   )
 }
 
+const sponsorMarks: Record<string, { monogram: string; variant: string }> = {
+  'CamComEx Jujuy': { monogram: 'CC', variant: 'orbit' },
+  'Andes Futuro': { monogram: 'AF', variant: 'ridge' },
+  'Norte Productivo': { monogram: 'NP', variant: 'block' },
+  'Impulso Federal': { monogram: 'IF', variant: 'line' },
+  'Red Puna': { monogram: 'RP', variant: 'loop' },
+  'Industria Viva': { monogram: 'IV', variant: 'stack' },
+  'Jujuy Innova': { monogram: 'JI', variant: 'gridmark' },
+  'Cámara Regional': { monogram: 'CR', variant: 'frame' },
+}
+
 export function SponsorsPage() {
   return (
     <>
-      <PageHero title="Alianzas que amplifican el impacto">
-        Una plataforma para que organizaciones líderes acompañen el desarrollo
-        productivo regional.
+      <PageHero
+        eyebrow="AUSPICIANTES DE EXPOJUY 2026"
+        title="Las empresas que hacen posible el encuentro"
+      >
+        Empresas, instituciones y organizaciones que acompañan el desarrollo
+        productivo y la experiencia de ExpoJuy.
       </PageHero>
-      <section className="section">
+      <section className="section sponsors-page">
         <div className="container">
-          {['Presenting', 'Oro', 'Plata', 'Aliados institucionales'].map(
-            (level) => (
-              <div
-                className="sponsor-level"
-                key={level}
-              >
-                <h2>{level}</h2>
-                <div>
-                  {sponsors
-                    .filter((s) => s.level === level)
-                    .map((s) => (
-                      <span key={s.id}>{s.name}</span>
-                    ))}
-                </div>
-              </div>
-            ),
-          )}
-          <section className="sponsor-benefits">
-            <SectionHeading
-              eyebrow="BENEFICIOS DEMOSTRATIVOS"
-              title="Una alianza con valor antes, durante y después del encuentro"
-            />
+          <header className="sponsors-header">
             <div>
-              {sponsorshipBenefits.map((benefit) => (
-                <article key={benefit.title}>
-                  <CheckCircle2 />
-                  <h3>{benefit.title}</h3>
-                  <p>{benefit.description}</p>
+              <p className="eyebrow">RED DE AUSPICIANTES</p>
+              <h2>Marcas que apuestan por Jujuy</h2>
+            </div>
+            <p>
+              Un espacio para reconocer a las empresas que acompañan esta
+              edición y hacen posible que el encuentro suceda.
+            </p>
+          </header>
+          <div
+            className="sponsor-logo-grid"
+            aria-label="Auspiciantes de ExpoJuy 2026"
+          >
+            {sponsors.map((sponsor) => {
+              const mark = sponsorMarks[sponsor.name]
+              const isCamComEx = sponsor.name === 'CamComEx Jujuy'
+              return (
+                <article
+                  className={`sponsor-logo-card sponsor-logo-${mark.variant}`}
+                  key={sponsor.id}
+                >
+                  {isCamComEx ? (
+                    <img
+                      className="sponsor-logo-image"
+                      src={camcomexLogo}
+                      alt={`${sponsor.name} — logo`}
+                      width={1077}
+                      height={1008}
+                    />
+                  ) : (
+                    <div
+                      className="sponsor-logo-lockup"
+                      aria-label={`${sponsor.name} — logo de muestra`}
+                    >
+                      <span className="sponsor-logo-mark" aria-hidden="true">
+                        {mark.monogram}
+                      </span>
+                      <span className="sponsor-logo-name">{sponsor.name}</span>
+                    </div>
+                  )}
+                  <p className="sponsor-logo-caption">Auspiciantes ExpoJuy 2026</p>
                 </article>
-              ))}
-            </div>
-          </section>
-          <div className="cta-panel">
-            <div>
-              <h2>Convertite en aliado de ExpoJuy</h2>
-              <p>
-                Beneficios, formatos y niveles presentados a modo demostrativo.
-              </p>
-            </div>
-            <LinkButton to="/contacto?tipo=sponsor">
-              Quiero ser sponsor
-            </LinkButton>
+              )
+            })}
           </div>
+          <div className="sponsors-note" role="note">
+            <Info size={18} aria-hidden="true" />
+            <p>
+              Las marcas de esta maqueta son representativas y reemplazables por
+              logos oficiales autorizados.
+            </p>
+          </div>
+        </div>
+      </section>
+      <section className="sponsors-invite">
+        <div className="container sponsors-invite-grid">
+          <div>
+            <p className="eyebrow">PARTICIPACIÓN</p>
+            <h2>Tu empresa también puede acompañar ExpoJuy</h2>
+            <p>
+              Conversemos sobre cómo presentar tu marca dentro del encuentro.
+            </p>
+          </div>
+          <LinkButton
+            to="/contacto?tipo=sponsor"
+            variant="light"
+          >
+            Quiero acompañar ExpoJuy <ArrowRight size={17} />
+          </LinkButton>
         </div>
       </section>
     </>
