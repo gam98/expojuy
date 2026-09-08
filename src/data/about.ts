@@ -16,7 +16,6 @@ export const aboutContent = {
   impact: {
     title: 'Capacidades locales con proyección nacional',
     description: 'La propuesta busca acercar oportunidades, activar redes y visibilizar el valor que nace en los distintos territorios de Jujuy.',
-    disclaimer: 'Impactos y alcances expresados como objetivos de demostración, no como resultados oficiales.',
     goals: ['Nuevos vínculos entre sectores', 'Circulación de conocimiento aplicado', 'Visibilidad para proyectos regionales'],
   },
   audiences: [
@@ -29,5 +28,5 @@ export const aboutContent = {
     title: 'Porque el futuro regional se construye cuando nos encontramos.',
     description: 'Para hacer visibles ideas, abrir conversaciones y conectar desafíos concretos con capacidades reales.',
   },
-  timeline: ['Escucha y definición', 'Convocatoria', 'Construcción de agenda', 'Encuentro 2026'],
+  timeline: ['Escucha y definición', 'Convocatoria', 'Construcción de agenda', 'Encuentro ExpoJuy 2026'],
 } as const;

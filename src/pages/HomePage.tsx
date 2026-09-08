@@ -106,10 +106,10 @@ export function HomePage() {
       </section>
 
       {/* SECCIÓN 2: INDICADORES (STATS) */}
-      <section className="stats container reveal-group" aria-label="Indicadores demostrativos">
+      <section className="stats container reveal-group" aria-label="Indicadores de ExpoJuy 2026">
         {[
           ['120+', 'Expositores estimados'],
-          ['45', 'Actividades demo'],
+          ['45', 'Actividades programadas'],
           ['8', 'Sectores productivos'],
           ['15K', 'Visitantes proyectados'],
         ].map((x, index) => (
@@ -241,7 +241,7 @@ export function HomePage() {
             <SectionHeading
               eyebrow="ORIENTATE"
               title="Un predio pensado para encontrarse"
-              copy="Explorá pabellones, auditorios, servicios y áreas de experiencia en nuestro plano conceptual."
+              copy="Explorá pabellones, auditorios, servicios y áreas de experiencia en nuestro plano del predio."
             />
             <div className="hero-anim-left hero-delay-2">
               <LinkButton to="/mapa">

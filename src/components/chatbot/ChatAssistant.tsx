@@ -8,8 +8,6 @@ import type { ChatAction, ChatResponse, ConversationMessage } from '../../types/
 import { ChatInput } from './ChatInput';
 import { ChatMessage } from './ChatMessage';
 
-const demoNotice = 'Asistente de demostración: las respuestas son simuladas y la información está sujeta a confirmación oficial.';
-
 function createAssistantMessage(response: ChatResponse): ConversationMessage {
   return { id: `assistant-${crypto.randomUUID()}`, role: 'assistant', content: response.message, response };
 }
@@ -17,12 +15,12 @@ function createAssistantMessage(response: ChatResponse): ConversationMessage {
 function createWelcome(pathname: string): ConversationMessage {
   const contextNote = pathname === '/agenda' ? ' Estás en la agenda: podés usar las sugerencias para acotar tu recorrido.'
     : pathname === '/expositores' ? ' Estás en el directorio: podés buscar por rubro o conectar con la agenda.'
-      : pathname === '/mapa' ? ' Estás en el mapa conceptual: podés consultar servicios y recorridos.'
-        : pathname === '/entradas' || pathname.startsWith('/checkout') ? ' Estás en la experiencia de entradas: los datos y el pago son demostrativos.'
+      : pathname === '/mapa' ? ' Estás en el mapa: podés consultar servicios y recorridos.'
+        : pathname === '/entradas' || pathname.startsWith('/checkout') ? ' Estás en la sección de entradas: podés revisar pases y opciones de pago.'
           : pathname === '/contacto' ? ' Estás en contacto: también podés resolver consultas frecuentes o derivar una consulta.' : '';
   return createAssistantMessage({
     id: `welcome-${pathname}`,
-    message: `Orientación de demostración para descubrir actividades, sectores, expositores, mapa y entradas.${contextNote}`,
+    message: `Estoy para ayudarte a descubrir actividades, sectores, expositores, mapa y entradas.${contextNote}`,
   });
 }
 
@@ -113,13 +111,12 @@ export function ChatAssistant() {
 
   return <div className="nexo-layer">
     {isOpen && <div className="nexo-backdrop" role="presentation" onMouseDown={() => closePanel()}>
-      <section className="nexo-panel" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="nexo-title" aria-describedby="nexo-demo-notice" onMouseDown={(event) => event.stopPropagation()} onKeyDown={trapFocus}>
+      <section className="nexo-panel" ref={panelRef} role="dialog" aria-modal="true" aria-labelledby="nexo-title" onMouseDown={(event) => event.stopPropagation()} onKeyDown={trapFocus}>
         <header className="nexo-header">
           <div className="nexo-heading"><span className="nexo-heading-mark" aria-hidden="true"><Compass /></span><div><p>Asistente ExpoJuy</p><h2 id="nexo-title">Nexo, asistente ExpoJuy</h2></div></div>
           <button className="nexo-close" type="button" onClick={() => closePanel()} aria-label="Cerrar asistente Nexo"><X aria-hidden="true" /></button>
         </header>
-        <div className="nexo-intro"><p id="nexo-demo-notice">{demoNotice}</p><small>Propuesta conceptual de asistencia inteligente para ExpoJuy 2026.</small></div>
-        <div className="nexo-conversation" ref={conversationRef} aria-label="Conversación de demostración">
+        <div className="nexo-conversation" ref={conversationRef} aria-label="Conversación con Nexo">
           {messages.map((message) => <ChatMessage key={message.id} message={message} onAction={handleAction} onQuickReply={sendMessage} />)}
         </div>
         <div className="nexo-quick-replies" aria-label="Consultas sugeridas">
