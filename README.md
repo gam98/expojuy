@@ -82,7 +82,7 @@ expoJuy/
 
 ## 🌟 Módulos y Funcionalidades Clave
 
-- **Experiencia Institucional y Editorial**: Portada dinámica, historia, propósitos y valores con carrusel accesible adaptado a directivas de movimiento reducido (`prefers-reduced-motion`).
+- **Experiencia Institucional y Editorial**: Portada dinámica, historia, propósitos y valores con carrusel accesible adaptado a directivas de movimiento reducido.
 - **Directorio de Expositores y Agenda**: Catálogo interactivo con filtrado dinámico por sector productivo y cronograma cronológico de actividades.
 - **Plano Interactivo del Predio**: Mapa conceptual organizado por sectores y pabellones.
 - **Venta de Entradas y Simulación de Checkout**:
