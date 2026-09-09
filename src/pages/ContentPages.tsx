@@ -953,21 +953,23 @@ export function SponsorsPage() {
           </div>
         </div>
       </section>
-      <section className="sponsors-invite">
-        <div className="container sponsors-invite-grid">
-          <div>
-            <p className="eyebrow">PARTICIPACIÓN</p>
-            <h2>Tu empresa también puede acompañar ExpoJuy</h2>
-            <p>
-              Conversemos sobre cómo presentar tu marca dentro del encuentro.
-            </p>
+      <section className="final-cta">
+        <div className="container final-cta-container">
+          <div className="final-cta-text">
+            <Users className="final-cta-icon" />
+            <div>
+              <p className="eyebrow">PARTICIPACIÓN</p>
+              <h2>Tu empresa también puede acompañar ExpoJuy</h2>
+            </div>
           </div>
-          <LinkButton
-            to="/contacto?tipo=sponsor"
-            variant="light"
-          >
-            Quiero acompañar ExpoJuy <ArrowRight size={17} />
-          </LinkButton>
+          <div className="button-row final-cta-actions">
+            <LinkButton to="/contacto?tipo=sponsor" variant="light">
+              Quiero acompañar ExpoJuy <ArrowRight size={17} />
+            </LinkButton>
+            <LinkButton to="/contacto?tipo=expositor" variant="secondary">
+              Quiero exponer
+            </LinkButton>
+          </div>
         </div>
       </section>
     </>
