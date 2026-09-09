@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import {
+  ArrowLeft,
   ArrowRight,
   Bookmark,
   Building2,
@@ -696,28 +697,167 @@ export function NewsPage() {
     </>
   )
 }
+const newsExtendedContent: Record<
+  string,
+  { paragraphs: string[]; quote?: string; quoteAuthor?: string }
+> = {
+  'nota-ronda-negocios': {
+    paragraphs: [
+      'ExpoJuy 2026 consolida su papel como el principal punto de convergencia empresarial del Noroeste Argentino. En esta edición, las rondas de negocios contarán con agendas previamente concertadas, facilitando el contacto directo entre pymes locales, compradores nacionales y delegaciones internacionales interesadas en la matriz productiva de la región.',
+      'La integración con el Corredor Bioceánico y las cadenas de valor transfronterizas ocupan un lugar prioritario en el programa. Representantes del sector agroindustrial, minero y tecnológico mantendrán mesas de trabajo destinadas a identificar complementariedades comerciales y proyectos conjuntos de inversión.',
+      'A través de estas jornadas de vinculación, se busca que cada reunión trascienda el marco de la muestra y se traduzca en acuerdos comerciales sostenibles, impulsando la internacionalización de los productos jujeños y el fortalecimiento de las economías regionales.',
+    ],
+    quote:
+      'El desafío no es solo producir con calidad, sino construir los canales de confianza y logística que permitan llegar a nuevos mercados.',
+    quoteAuthor: 'Comisión de Comercio Exterior de Jujuy',
+  },
+  'nota-innovacion-regional': {
+    paragraphs: [
+      'El ecosistema científico y tecnológico de Jujuy desembarca en ExpoJuy con desarrollos aplicados a sectores estratégicos como la energía solar, el almacenamiento energético, el software agropecuario y la biotecnología aplicada a cultivos de altura.',
+      'Equipos universitarios, centros de investigación y startups locales presentarán prototipos funcionales y casos de éxito en el Pabellón de Innovación. Los visitantes podrán conocer de primera mano cómo el conocimiento técnico responde a desafíos geográficos y climáticos propios del norte grande.',
+      'La articulación entre el polo tecnológico provincial y las empresas consolidadas abre un camino prometedor para retener talento joven y posicionar a Jujuy como un referente de soluciones sustentables para el continente.',
+    ],
+    quote:
+      'La tecnología adquiere verdadero valor cuando resuelve los problemas reales de nuestro territorio y genera empleo calificado.',
+    quoteAuthor: 'Espacio de Innovación y Economía del Conocimiento',
+  },
+  'nota-encuentro-empresas': {
+    paragraphs: [
+      'Más de 150 firmas de diversos rubros ya confirmaron su participación en la muestra. Los pasillos de Ciudad Cultural se diseñaron para propiciar encuentros espontáneos y reuniones de trabajo fluidas entre directivos, proveedores y clientes.',
+      'Además de los stands comerciales, el predio contará con salones de networking y áreas de demostración en vivo de maquinaria y servicios, permitiendo a los expositores visibilizar sus procesos con máxima cercanía.',
+      'El objetivo central es fomentar la compra local, la sustitución de insumos extrarregionales y la creación de consorcios productivos capaces de responder a demandas de gran escala.',
+    ],
+    quote:
+      'Cada edición de ExpoJuy demuestra que cuando los sectores público, privado y académico se sientan en la misma mesa, los proyectos se aceleran.',
+    quoteAuthor: 'Cámara de Comercio Exterior de Jujuy',
+  },
+  'nota-agenda-octubre': {
+    paragraphs: [
+      'Del 9 al 12 de octubre de 2026, Ciudad Cultural se transformará en el epicentro de la actividad económica y social de Jujuy. El cronograma incluye conferencias magistrales, paneles sectoriales y talleres prácticos coordinados por referentes del sector.',
+      'Las mañanas estarán dedicadas al perfil profesional y de negocios, con actividades académicas y rondas de compradores. Por las tardes, el predio abrirá sus puertas al público general con propuestas interactivas, muestras culturales y gastronomía típica.',
+      'La agenda completa ya se encuentra en proceso de confirmación y los participantes podrán personalizar su itinerario de charlas y acreditaciones a través del portal oficial.',
+    ],
+    quote:
+      'Diseñamos una programación equilibrada para que cada visitante, sea empresario, estudiante o familia, encuentre una experiencia memorable.',
+    quoteAuthor: 'Coordinación General de ExpoJuy 2026',
+  },
+  'nota-produccion-jujena': {
+    paragraphs: [
+      'La identidad productiva de Jujuy encuentra en sus artesanos, productores cooperativos y emprendedores comunitarios uno de sus pilares más representativos. ExpoJuy destinará un sector especial para poner en valor los oficios tradicionales y la manufactura artesanal.',
+      'Tejidos en fibra de vicuña y llama, cerámica de la Quebrada, conservas y alimentos agroecológicos de las Yungas formarán parte de una exhibición que combina saberes ancestrales con estándares de diseño contemporáneo.',
+      'El programa contempla capacitaciones en comercialización digital y formalización impositiva, con el fin de que las comunidades productoras amplíen sus canales de venta durante y después de la feria.',
+    ],
+    quote:
+      'El saber hacer tradicional es patrimonio vivo y una fuente genuina de desarrollo económico con arraigo en nuestras comunidades.',
+    quoteAuthor: 'Red de Productores y Comunidades de Jujuy',
+  },
+  'nota-muestra-productiva': {
+    paragraphs: [
+      'La feria ofrecerá un mapa integral de la producción jujeña: desde la minería responsable y la metalmecánica hasta la producción de frutas tropicales, caña de azúcar, tabaco y legumbres de exportación.',
+      'Los expositores presentarán innovaciones en empaques sustentables, trazabilidad por código QR y certificaciones de origen que garantizan la calidad de los alimentos jujeños en góndolas nacionales e internacionales.',
+      'Los asistentes podrán dialogar directamente con los productores, conocer las etapas de elaboración y degustar productos con sello de identidad territorial.',
+    ],
+    quote:
+      'Mostrar lo que Jujuy produce es ratificar el potencial de nuestra tierra y el compromiso de nuestros trabajadores.',
+    quoteAuthor: 'Cámara de Comercio Exterior de Jujuy',
+  },
+  'nota-experiencia-visitante': {
+    paragraphs: [
+      'ExpoJuy 2026 está pensada para ser vivida por toda la comunidad. Los pabellones contarán con señalización accesible, áreas de descanso arboladas, patio gastronómico regional y espacios interactivos para niños y jóvenes.',
+      'Durante los cuatro días se desarrollarán actividades lúdicas sobre energías renovables, visitas guiadas para escuelas secundarias y técnicas, y espectáculos musicales de cierre con artistas locales.',
+      'Las entradas podrán adquirirse de forma anticipada con beneficios exclusivos y modalidades de pago en cuotas, garantizando que el acceso al predio sea ágil y ordenado.',
+    ],
+    quote:
+      'Queremos que cada familia que visite ExpoJuy se sienta parte del futuro que estamos construyendo juntos.',
+    quoteAuthor: 'Comité Organizador ExpoJuy 2026',
+  },
+}
+
 export function NewsDetailPage() {
   const { id } = useParams()
   const item = news.find((n) => n.id === id) ?? news[0]
+  const content = newsExtendedContent[item.id] ?? {
+    paragraphs: [
+      'ExpoJuy pone en conversación a quienes producen, investigan, emprenden y transforman en Jujuy y la región.',
+      'Esta nota reúne novedades, historias y recursos para acompañar la experiencia de quienes participan del encuentro.',
+      'A través de estas instancias, se busca fortalecer la articulación de la matriz productiva y generar nuevas oportunidades de encuentro.',
+    ],
+    quote: 'El futuro regional se construye cuando nos encontramos y potenciamos nuestras capacidades.',
+    quoteAuthor: 'ExpoJuy 2026',
+  }
+
   return (
     <>
       <PageHero
-        eyebrow={item.category}
+        eyebrow={`NOVEDADES · ${item.category.toUpperCase()}`}
         title={item.title}
       >
         {item.excerpt}
       </PageHero>
-      <article className="article container reveal-group">
-        <div className="hero-anim-up hero-delay-1">
-          <Link to="/novedades">← Volver a novedades</Link>
-          <p>
-            ExpoJuy pone en conversación a quienes producen, investigan,
-            emprenden y transforman en Jujuy y la región.
-          </p>
-          <p>
-            Esta nota reúne novedades, historias y recursos para acompañar la
-            experiencia de quienes participan del encuentro.
-          </p>
+
+      <article className="article-detail-container reveal-group">
+        {/* Barra superior de navegación y metadata */}
+        <div className="article-top-bar hero-anim-left hero-delay-1">
+          <Link to="/novedades" className="btn-back-island" aria-label="Volver a la lista de novedades">
+            <span className="btn-back-icon">
+              <ArrowLeft size={16} />
+            </span>
+            <span>Volver a novedades</span>
+          </Link>
+          <div className="article-meta-tags">
+            <time className="article-date-pill">{item.date}</time>
+            <span className="article-category-badge">{item.category}</span>
+          </div>
+        </div>
+
+        {/* Imagen de la card con arquitectura Double-Bezel */}
+        <figure className="article-media-shell hero-anim-up hero-delay-2">
+          <div className="article-media-core">
+            <img
+              src={item.image.src}
+              alt={item.image.alt}
+              loading="eager"
+            />
+            <div className="article-media-scrim" />
+          </div>
+          {item.image.alt && (
+            <figcaption className="article-media-caption">
+              <span className="caption-dot" />
+              <p>{item.image.alt}</p>
+            </figcaption>
+          )}
+        </figure>
+
+        {/* Cuerpo editorial de la nota */}
+        <div className="article-body hero-anim-up hero-delay-3">
+          <p className="article-lead">{item.excerpt}</p>
+
+          {content.paragraphs.map((paragraph, idx) => (
+            <p key={idx} className="article-paragraph">{paragraph}</p>
+          ))}
+
+          {content.quote && (
+            <blockquote className="article-quote">
+              <p>“{content.quote}”</p>
+              {content.quoteAuthor && <cite>— {content.quoteAuthor}</cite>}
+            </blockquote>
+          )}
+
+          {/* Navegación inferior al finalizar la lectura */}
+          <div className="article-footer-nav">
+            <Link to="/novedades" className="btn-back-island" aria-label="Volver a todas las novedades">
+              <span className="btn-back-icon">
+                <ArrowLeft size={16} />
+              </span>
+              <span>Volver a todas las novedades</span>
+            </Link>
+
+            <div className="article-footer-actions">
+              <Link to="/entradas" className="btn btn-primary">
+                Conseguí tu entrada
+              </Link>
+            </div>
+          </div>
         </div>
       </article>
     </>
