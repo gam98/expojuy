@@ -46,6 +46,15 @@ export function HomePage() {
     return () => observer.disconnect();
   }, []);
 
+  // Rotación automática continua en tiempo corto (3 segundos)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveValueIndex((prev) => (prev + 1) % expoValores.length);
+    }, 3000);
+
+    return () => clearInterval(timer);
+  }, [activeValueIndex]);
+
   const activeValue = expoValores[activeValueIndex];
   const previousValueIndex = (activeValueIndex - 1 + expoValores.length) % expoValores.length;
   const nextValueIndex = (activeValueIndex + 1) % expoValores.length;
@@ -150,6 +159,7 @@ export function HomePage() {
           >
             <div className="home-values-carousel-stage">
               <article
+                key={activeValue.id}
                 className="home-values-carousel-slide"
                 role="group"
                 aria-roledescription="diapositiva"

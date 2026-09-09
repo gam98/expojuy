@@ -9,6 +9,7 @@ import {
   Check,
   CheckCircle2,
   ChevronDown,
+  CircleHelp,
   Clock,
   Compass,
   Copy,
@@ -310,16 +311,12 @@ export function ExhibitorsPage() {
                       className="exhibitor-image-overlay"
                       aria-hidden="true"
                     >
-                      <span className="exhibitor-monogram">
-                        {e.name.slice(0, 2).toUpperCase()}
-                      </span>
                       <span className="exhibitor-sector-overlay">
                         {e.sector}
                       </span>
                     </figcaption>
                   </figure>
                   <div className="exhibitor-card-body">
-                    <p className="exhibitor-sector">{e.sector}</p>
                     <h2>{e.name}</h2>
                     <p>{e.description}</p>
                     <small>{e.stand}</small>
@@ -1249,49 +1246,101 @@ export function ContactPage() {
 
 export function FaqPage() {
   const [q, setQ] = useState('')
-  const [open, setOpen] = useState<string | null>(null)
-  const list = faqs.filter((f) =>
-    `${f.question} ${f.answer} ${f.category}`
-      .toLowerCase()
-      .includes(q.toLowerCase()),
-  )
+  const [open, setOpen] = useState<string | null>('faq-1')
+
+  const list = useMemo(() => {
+    const query = q.trim().toLowerCase()
+    if (!query) return faqs
+    return faqs.filter((f) =>
+      `${f.question} ${f.answer} ${f.category}`
+        .toLowerCase()
+        .includes(query)
+    )
+  }, [q])
+
   return (
     <>
       <PageHero title="Preguntas frecuentes">
-        Información para resolver las primeras dudas sobre la experiencia.
+        Información y respuestas claras para resolver tus dudas sobre ExpoJuy 2026.
       </PageHero>
-      <section className="section">
+      <section className="section faq-section">
         <div className="container narrow">
-          <label className="search-box">
-            <span>Buscar una pregunta</span>
-            <div>
-              <Search />
+          {/* Barra de búsqueda con el mismo estilo minimalista que en Expositores */}
+          <div className="faq-filter-area">
+            <div className="filter-search-box faq-search-box">
+              <Search className="filter-search-icon" aria-hidden="true" />
               <input
+                type="text"
+                className="filter-search-input"
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Escribí una palabra clave"
+                placeholder="Buscar por pregunta, respuesta o tema..."
+                aria-label="Buscar en preguntas frecuentes"
               />
+              {q && (
+                <button
+                  type="button"
+                  className="filter-search-clear"
+                  onClick={() => setQ('')}
+                  aria-label="Limpiar búsqueda"
+                >
+                  <X size={14} />
+                </button>
+              )}
             </div>
-          </label>
-          <div className="accordion">
-            {list.map((f) => (
-              <div key={f.id}>
-                <h2>
-                  <button
-                    aria-expanded={open === f.id}
-                    onClick={() => setOpen(open === f.id ? null : f.id)}
-                  >
-                    <span>
-                      <Badge>{f.category}</Badge>
-                      {f.question}
-                    </span>
-                    <ChevronDown />
-                  </button>
-                </h2>
-                {open === f.id && <p>{f.answer}</p>}
-              </div>
-            ))}
           </div>
+
+          {/* Acordeón interactivo con iconos minimalistas y animación fluida */}
+          {list.length > 0 ? (
+            <div className="faq-accordion" role="region" aria-label="Listado de preguntas frecuentes">
+              {list.map((f) => {
+                const isOpen = open === f.id
+                return (
+                  <article
+                    key={f.id}
+                    className={`faq-card ${isOpen ? 'is-open' : ''}`}
+                  >
+                    <h3>
+                      <button
+                        type="button"
+                        className="faq-trigger"
+                        aria-expanded={isOpen}
+                        onClick={() => setOpen(isOpen ? null : f.id)}
+                      >
+                        <div className="faq-title-group">
+                          <span className="faq-category-tag">{f.category}</span>
+                          <span className="faq-question-text">{f.question}</span>
+                        </div>
+                        <span className="faq-chevron-bubble" aria-hidden="true">
+                          <ChevronDown className="faq-chevron" />
+                        </span>
+                      </button>
+                    </h3>
+                    <div className="faq-collapse">
+                      <div className="faq-collapse-body">
+                        <p>{f.answer}</p>
+                      </div>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="faq-empty-state">
+              <div className="faq-empty-icon" aria-hidden="true">
+                <CircleHelp size={28} />
+              </div>
+              <h3>No encontramos respuestas para "{q}"</h3>
+              <p>Probá con otras palabras clave o limpiá la búsqueda.</p>
+              <button
+                type="button"
+                className="btn btn-secondary"
+                onClick={() => setQ('')}
+              >
+                Limpiar búsqueda
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </>
