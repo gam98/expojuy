@@ -44,6 +44,12 @@ import { news } from '../data/news'
 import { readStorage } from '../lib/storage'
 import { aboutContent } from '../data/about'
 import { camcomexLogo } from '../assets/brand'
+import { expoValores } from '../assets/valores'
+import conexionesImage from '../../images/news-conexiones.png'
+import comunidadImage from '../../images/news-comunidad.png'
+import expositoresImage from '../../images/news-expositores.png'
+import innovacionImage from '../../images/news-innovacion.png'
+import agendaImage from '../../images/news-agenda.png'
 import {
   Badge,
   Button,
@@ -53,52 +59,123 @@ import {
   SectionHeading,
 } from '../components/ui'
 
+const audienceLinkData = [
+  {
+    title: 'Visitantes',
+    description: 'Descubrir propuestas, actividades y experiencias.',
+    link: '/entradas',
+    actionText: 'Conseguí tu entrada',
+    image: comunidadImage,
+    alt: 'Visitantes recorriendo propuestas en ExpoJuy',
+  },
+  {
+    title: 'Empresas y expositores',
+    description: 'Mostrar capacidades y construir oportunidades.',
+    link: '/contacto?tipo=expositor',
+    actionText: 'Quiero exponer',
+    image: expositoresImage,
+    alt: 'Empresas y expositores conectando en ExpoJuy',
+  },
+  {
+    title: 'Estudiantes y profesionales',
+    description: 'Aprender, compartir y ampliar redes.',
+    link: '/agenda',
+    actionText: 'Ver actividades',
+    image: innovacionImage,
+    alt: 'Estudiantes y profesionales en actividades de ExpoJuy',
+  },
+  {
+    title: 'Instituciones y sponsors',
+    description: 'Impulsar una agenda productiva con impacto.',
+    link: '/sponsors',
+    actionText: 'Conocer opciones de sponsor',
+    image: agendaImage,
+    alt: 'Instituciones y sponsors colaborando en ExpoJuy',
+  },
+]
+
 export function AboutPage() {
   return (
     <>
       <PageHero title={aboutContent.hero.title}>
         {aboutContent.hero.description}
       </PageHero>
-      <section className="section reveal-group">
-        <div className="container split">
-          <div className="hero-anim-left hero-delay-1">
+
+      {/* 1. Propósito y Valores en Fila Continua (Pegadas, sin espacios, pasando de izquierda a derecha) */}
+      <section className="section about-purpose-section reveal-group">
+        <div className="container">
+          <div className="about-purpose-header hero-anim-left hero-delay-1">
             <SectionHeading
               eyebrow="PROPÓSITO"
               title={aboutContent.purpose.title}
             />
-            <p className="lead">{aboutContent.purpose.description}</p>
+            <p className="lead about-purpose-lead">{aboutContent.purpose.description}</p>
           </div>
-          <div className="values-grid">
-            {aboutContent.values.map((value, i) => (
-              <div key={value} className={`hero-anim-up hero-delay-${(i % 4) + 1}`}>
-                <Sparkles />
-                <h3>{value}</h3>
-                <p>Un valor que guía la construcción colectiva de ExpoJuy.</p>
-              </div>
+        </div>
+
+        <div className="about-values-strip-container hero-anim-up hero-delay-2">
+          <div className="about-values-strip-track">
+            {[...expoValores, ...expoValores].map((valor, idx) => (
+              <article key={`${valor.id}-${idx}`} className="about-values-strip-card">
+                <div className="about-values-strip-bg">
+                  <img src={valor.image} alt={valor.title} loading="lazy" />
+                  <div className="about-values-strip-scrim" />
+                </div>
+                <div className="about-values-strip-content">
+                  <h3 className="about-values-strip-title">{valor.title}</h3>
+                  <div className="about-values-strip-sublock">
+                    <span className="about-values-strip-num">{valor.num}</span>
+                    <span className="about-values-strip-subtitle">{valor.subtitle}</span>
+                  </div>
+                </div>
+              </article>
             ))}
           </div>
         </div>
       </section>
-      <section className="section section-tint reveal-group">
-        <div className="container split">
-          <div className="hero-anim-left hero-delay-1">
+
+      {/* 2. Impacto Regional con Showcase Editorial (Sin etiqueta pill) */}
+      <section className="section section-tint about-impact-section reveal-group">
+        <div className="container about-impact-container">
+          <div className="about-impact-text hero-anim-left hero-delay-1">
             <SectionHeading
               eyebrow="IMPACTO REGIONAL"
               title={aboutContent.impact.title}
               copy={aboutContent.impact.description}
             />
+            <div className="about-impact-goals">
+              {aboutContent.impact.goals.map((item, index) => (
+                <div key={item} className={`about-goal-item hero-anim-up hero-delay-${(index % 3) + 1}`}>
+                  <div className="about-goal-num">
+                    <span>0{index + 1}</span>
+                  </div>
+                  <div className="about-goal-info">
+                    <h3 className="about-goal-title">{item}</h3>
+                    <p className="about-goal-sub">Compromiso estratégico de articulación para la edición 2026.</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="impact-list">
-            {aboutContent.impact.goals.map((item, index) => (
-              <div key={item} className={`hero-anim-up hero-delay-${(index % 4) + 1}`}>
-                <span>{index + 1}</span>
-                <h3>{item}</h3>
+          <div className="about-impact-media hero-anim-right hero-delay-2">
+            <div className="about-media-frame">
+              <img
+                src={conexionesImage}
+                alt="Conexiones estratégicas en ExpoJuy"
+                className="about-media-img"
+                loading="lazy"
+              />
+              <div className="about-media-overlay" />
+              <div className="about-media-caption">
+                <p>Articulación entre sector público, privado y científico para potenciar la matriz productiva.</p>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
-      <section className="section reveal-group">
+
+      {/* 3. A Quiénes Convoca (4 Tarjetas Pegadas, Clickeables y Sin Etiquetas) */}
+      <section className="section about-audiences-section reveal-group">
         <div className="container">
           <div className="hero-anim-left hero-delay-1">
             <SectionHeading
@@ -106,54 +183,85 @@ export function AboutPage() {
               title="Una exposición, múltiples formas de participar"
             />
           </div>
-          <div className="audience-grid">
-            {aboutContent.audiences.map((audience, i) => (
-              <article key={audience.title} className={`hero-anim-up hero-delay-${(i % 3) + 1}`}>
-                <h3>{audience.title}</h3>
-                <p>{audience.description}</p>
-              </article>
+          <div className="about-audiences-seamless-grid hero-anim-up hero-delay-2">
+            {audienceLinkData.map((item) => (
+              <Link
+                key={item.title}
+                to={item.link}
+                className="about-audience-seamless-card"
+                aria-label={`${item.title}: ${item.description}. ${item.actionText}`}
+              >
+                <div className="about-audience-seamless-bg">
+                  <img
+                    src={item.image}
+                    alt={item.alt}
+                    loading="lazy"
+                  />
+                  <div className="about-audience-seamless-scrim" />
+                </div>
+                <div className="about-audience-seamless-body">
+                  <h3 className="about-audience-seamless-title">{item.title}</h3>
+                  <p className="about-audience-seamless-desc">{item.description}</p>
+                  <span className="about-audience-seamless-cta">
+                    <span>{item.actionText}</span>
+                    <ArrowRight className="about-audience-seamless-arrow" />
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
       </section>
-      <section className="why-section reveal-group">
-        <div className="container split">
-          <div className="hero-anim-left hero-delay-1">
-            <p className="eyebrow">POR QUÉ PARTICIPAR</p>
-            <h2>{aboutContent.participation.title}</h2>
-          </div>
-          <div className="hero-anim-right hero-delay-2">
-            <p>{aboutContent.participation.description}</p>
-            <div className="button-row">
-              <LinkButton
-                to="/entradas"
-                variant="light"
-              >
+
+      {/* 4. Por Qué Participar (Fondo Ink institucional con tipografía clara y botones destacados) */}
+      <section className="about-why-teaser section reveal-group">
+        <div className="container">
+          <div className="about-why-content hero-anim-left hero-delay-1">
+            <p className="eyebrow about-why-eyebrow">POR QUÉ PARTICIPAR</p>
+            <h2 className="about-why-title">{aboutContent.participation.title}</h2>
+            <p className="about-why-desc">{aboutContent.participation.description}</p>
+            <div className="button-row about-why-btn-row hero-anim-left hero-delay-2">
+              <LinkButton to="/entradas">
                 Conseguí tu entrada
               </LinkButton>
-              <LinkButton
-                to="/contacto?tipo=expositor"
-                variant="secondary"
-              >
+              <LinkButton to="/contacto?tipo=expositor" variant="light">
                 Quiero exponer
               </LinkButton>
             </div>
           </div>
         </div>
       </section>
-      <section className="section section-tint reveal-group">
+
+      {/* 5. Roadmap Vertical Alternado */}
+      <section className="section section-tint about-timeline-section reveal-group">
         <div className="container">
           <div className="hero-anim-left hero-delay-1">
             <SectionHeading title="Una preparación abierta y progresiva" />
           </div>
-          <div className="timeline">
-            {aboutContent.timeline.map((item, index) => (
-              <div key={item} className={`hero-anim-up hero-delay-${(index % 4) + 1}`}>
-                <span>0{index + 1}</span>
-                <h3>{item}</h3>
-                <p>Una etapa clave en el camino hacia ExpoJuy 2026.</p>
-              </div>
-            ))}
+          <div className="about-roadmap-vertical">
+            <div className="about-roadmap-line" />
+            {aboutContent.timeline.map((item, index) => {
+              const isEven = index % 2 === 0
+              const isTarget = index === 3
+              return (
+                <div
+                  key={item}
+                  className={`about-roadmap-item ${isEven ? 'is-left' : 'is-right'} ${isTarget ? 'is-target' : ''} hero-anim-up hero-delay-${index + 1}`}
+                >
+                  <div className="about-roadmap-node">
+                    <span className="about-roadmap-node-num">0{index + 1}</span>
+                    {isTarget && <span className="about-roadmap-node-pulse" />}
+                  </div>
+                  <div className="about-roadmap-card">
+                    <span className="about-roadmap-badge">
+                      {isTarget ? 'Hito Central' : `Fase 0${index + 1}`}
+                    </span>
+                    <h3 className="about-roadmap-title">{item}</h3>
+                    <p className="about-roadmap-desc">Una etapa clave en el camino hacia ExpoJuy 2026.</p>
+                  </div>
+                </div>
+              )
+            })}
           </div>
         </div>
       </section>
