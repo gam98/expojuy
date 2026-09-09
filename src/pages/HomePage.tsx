@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { ArrowRight, Atom, Building2, CalendarDays, Cpu, Factory, Gem, Globe2, Leaf, Map, MapPin, Sparkles, Users } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { ArrowLeft, ArrowRight, Atom, Building2, CalendarDays, Cpu, Factory, Gem, Globe2, Leaf, Map, MapPin, Sparkles, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { activities, exhibitors, sectorsList, sponsors } from '../data/content';
 import { news } from '../data/news';
@@ -8,10 +8,13 @@ import { camcomexLogo } from '../assets/brand';
 import { Countdown } from '../components/Countdown';
 import { HeroOrbit } from '../components/HeroOrbit';
 import { expoValores } from '../assets/valores';
+import exhibitorsEditorialImage from '../../images/news-expositores.png';
 
 const icons = [Gem, Leaf, Globe2, Cpu, Building2, Atom, Factory, Sparkles];
 
 export function HomePage() {
+  const [activeValueIndex, setActiveValueIndex] = useState(0);
+
   useEffect(() => {
     // Si no está disponible IntersectionObserver, revelar todo de inmediato
     if (typeof IntersectionObserver === 'undefined') {
@@ -42,6 +45,10 @@ export function HomePage() {
 
     return () => observer.disconnect();
   }, []);
+
+  const activeValue = expoValores[activeValueIndex];
+  const previousValueIndex = (activeValueIndex - 1 + expoValores.length) % expoValores.length;
+  const nextValueIndex = (activeValueIndex + 1) % expoValores.length;
 
   return (
     <>
@@ -135,18 +142,70 @@ export function HomePage() {
               </LinkButton>
             </div>
           </div>
-          <div className="values-grid hero-anim-right hero-delay-2" aria-label="Valores de la propuesta">
-            {expoValores.map((v, index) => (
-              <div key={v.id} className={`value-card hero-anim-up hero-delay-${(index % 3) + 1}`}>
-                <img src={v.image} alt={v.title} className="value-card-img" loading="lazy" />
-                <div className="value-card-overlay" />
-                <div className="value-card-content">
-                  <span className="value-card-num">{v.num}</span>
-                  <strong className="value-card-title">{v.title}</strong>
-                  <span className="value-card-sub">{v.subtitle}</span>
+          <div
+            className="home-values-carousel hero-anim-right hero-delay-2"
+            role="region"
+            aria-roledescription="carousel"
+            aria-label="Ejes de ExpoJuy"
+          >
+            <div className="home-values-carousel-stage">
+              <article
+                className="home-values-carousel-slide"
+                role="group"
+                aria-roledescription="diapositiva"
+                aria-label={`${activeValueIndex + 1} de ${expoValores.length}: ${activeValue.title}`}
+              >
+                <img src={activeValue.image} alt={activeValue.title} loading="eager" />
+                <div className="home-values-carousel-scrim" aria-hidden="true" />
+                <div className="home-values-carousel-copy">
+                  <span>{activeValue.num}</span>
+                  <div>
+                    <strong>{activeValue.title}</strong>
+                    <p>{activeValue.subtitle}</p>
+                  </div>
+                </div>
+              </article>
+
+              <div className="home-values-carousel-controls">
+                <p className="home-values-carousel-status" aria-live="polite" aria-atomic="true">
+                  {activeValueIndex + 1} de {expoValores.length}: {activeValue.title}
+                </p>
+                <div>
+                  <button
+                    type="button"
+                    className="home-values-carousel-control"
+                    onClick={() => setActiveValueIndex(previousValueIndex)}
+                    aria-label={`Ver valor anterior: ${expoValores[previousValueIndex].title}`}
+                  >
+                    <ArrowLeft aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    className="home-values-carousel-control"
+                    onClick={() => setActiveValueIndex(nextValueIndex)}
+                    aria-label={`Ver valor siguiente: ${expoValores[nextValueIndex].title}`}
+                  >
+                    <ArrowRight aria-hidden="true" />
+                  </button>
                 </div>
               </div>
-            ))}
+            </div>
+
+            <nav className="home-values-carousel-rail" aria-label="Elegir un eje de ExpoJuy">
+              {expoValores.map((value, index) => (
+                <button
+                  type="button"
+                  className="home-values-carousel-rail-button"
+                  key={value.id}
+                  onClick={() => setActiveValueIndex(index)}
+                  aria-current={index === activeValueIndex ? 'true' : undefined}
+                  aria-label={`Mostrar ${value.title}: ${value.subtitle}`}
+                >
+                  <img src={value.image} alt="" loading="lazy" />
+                  <span>{value.num}</span>
+                </button>
+              ))}
+            </nav>
           </div>
         </div>
       </section>
@@ -212,24 +271,56 @@ export function HomePage() {
       </section>
 
       {/* SECCIÓN 6: QUIÉNES HACEN */}
-      <section className="section reveal-group">
-        <div className="container">
-          <div className="hero-anim-left hero-delay-1">
-            <SectionHeading eyebrow="QUIÉNES HACEN" title="Un ecosistema productivo conectado" />
+      <section className="section home-exhibitors reveal-group" aria-labelledby="home-exhibitors-title">
+        <div className="container home-exhibitors-layout">
+          <div className="home-exhibitors-media hero-anim-left hero-delay-1">
+            <figure className="home-exhibitors-figure">
+              <img
+                src={exhibitorsEditorialImage}
+                alt="Personas reunidas alrededor de un mapa durante una instancia de planificación productiva"
+                width={1536}
+                height={1024}
+                loading="lazy"
+              />
+            </figure>
+            <div className="home-exhibitors-stat" aria-label="Más de 120 expositores conectados">
+              <strong>120+</strong>
+              <span>expositores conectados</span>
+            </div>
           </div>
-          <div className="logo-grid">
-            {exhibitors.slice(0, 6).map((e, index) => (
-              <div key={e.id} className={`hero-anim-up hero-delay-${(index % 3) + 1}`}>
-                <span>{e.name.slice(0, 2).toUpperCase()}</span>
-                <strong>{e.name}</strong>
-                <small>{e.sector}</small>
-              </div>
-            ))}
-          </div>
-          <div className="hero-anim-left hero-delay-3" style={{ marginTop: '2rem' }}>
-            <LinkButton to="/expositores" variant="secondary">
-              Explorar expositores
-            </LinkButton>
+
+          <div className="home-exhibitors-content hero-anim-right hero-delay-2">
+            <p className="home-exhibitors-eyebrow">Quiénes hacen</p>
+            <h2 id="home-exhibitors-title">Empresas y proyectos que impulsan nuevos encuentros</h2>
+            <p className="home-exhibitors-copy">
+              Conocé una primera selección de organizaciones que acercan producción, innovación y oportunidades a ExpoJuy.
+            </p>
+
+            <ul className="home-exhibitors-list" aria-label="Expositores destacados">
+              {exhibitors.slice(0, 6).map((exhibitor) => (
+                <li key={exhibitor.id}>
+                  <Link
+                    to={`/expositores?q=${encodeURIComponent(exhibitor.name)}`}
+                    className="home-exhibitors-row"
+                    aria-label={`Ver ${exhibitor.name}, ${exhibitor.sector}, ${exhibitor.stand}`}
+                  >
+                    <span className="home-exhibitors-monogram" aria-hidden="true">
+                      {exhibitor.name.slice(0, 2).toUpperCase()}
+                    </span>
+                    <span className="home-exhibitors-details">
+                      <strong>{exhibitor.name}</strong>
+                      <span>{exhibitor.sector}</span>
+                    </span>
+                    <span className="home-exhibitors-stand">{exhibitor.stand}</span>
+                    <ArrowRight aria-hidden="true" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+
+            <Link to="/expositores" className="home-exhibitors-cta">
+              Ver todos los expositores <ArrowRight aria-hidden="true" />
+            </Link>
           </div>
         </div>
       </section>
