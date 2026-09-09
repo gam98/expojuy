@@ -59,9 +59,9 @@ export function AboutPage() {
       <PageHero title={aboutContent.hero.title}>
         {aboutContent.hero.description}
       </PageHero>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container split">
-          <div>
+          <div className="hero-anim-left hero-delay-1">
             <SectionHeading
               eyebrow="PROPÓSITO"
               title={aboutContent.purpose.title}
@@ -69,8 +69,8 @@ export function AboutPage() {
             <p className="lead">{aboutContent.purpose.description}</p>
           </div>
           <div className="values-grid">
-            {aboutContent.values.map((value) => (
-              <div key={value}>
+            {aboutContent.values.map((value, i) => (
+              <div key={value} className={`hero-anim-up hero-delay-${(i % 4) + 1}`}>
                 <Sparkles />
                 <h3>{value}</h3>
                 <p>Un valor que guía la construcción colectiva de ExpoJuy.</p>
@@ -79,9 +79,9 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className="section section-tint">
+      <section className="section section-tint reveal-group">
         <div className="container split">
-          <div>
+          <div className="hero-anim-left hero-delay-1">
             <SectionHeading
               eyebrow="IMPACTO REGIONAL"
               title={aboutContent.impact.title}
@@ -90,7 +90,7 @@ export function AboutPage() {
           </div>
           <div className="impact-list">
             {aboutContent.impact.goals.map((item, index) => (
-              <div key={item}>
+              <div key={item} className={`hero-anim-up hero-delay-${(index % 4) + 1}`}>
                 <span>{index + 1}</span>
                 <h3>{item}</h3>
               </div>
@@ -98,15 +98,17 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container">
-          <SectionHeading
-            eyebrow="A QUIÉNES CONVOCA"
-            title="Una exposición, múltiples formas de participar"
-          />
+          <div className="hero-anim-left hero-delay-1">
+            <SectionHeading
+              eyebrow="A QUIÉNES CONVOCA"
+              title="Una exposición, múltiples formas de participar"
+            />
+          </div>
           <div className="audience-grid">
-            {aboutContent.audiences.map((audience) => (
-              <article key={audience.title}>
+            {aboutContent.audiences.map((audience, i) => (
+              <article key={audience.title} className={`hero-anim-up hero-delay-${(i % 3) + 1}`}>
                 <h3>{audience.title}</h3>
                 <p>{audience.description}</p>
               </article>
@@ -114,13 +116,13 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className="why-section">
+      <section className="why-section reveal-group">
         <div className="container split">
-          <div>
+          <div className="hero-anim-left hero-delay-1">
             <p className="eyebrow">POR QUÉ PARTICIPAR</p>
             <h2>{aboutContent.participation.title}</h2>
           </div>
-          <div>
+          <div className="hero-anim-right hero-delay-2">
             <p>{aboutContent.participation.description}</p>
             <div className="button-row">
               <LinkButton
@@ -139,12 +141,14 @@ export function AboutPage() {
           </div>
         </div>
       </section>
-      <section className="section section-tint">
+      <section className="section section-tint reveal-group">
         <div className="container">
-          <SectionHeading title="Una preparación abierta y progresiva" />
+          <div className="hero-anim-left hero-delay-1">
+            <SectionHeading title="Una preparación abierta y progresiva" />
+          </div>
           <div className="timeline">
             {aboutContent.timeline.map((item, index) => (
-              <div key={item}>
+              <div key={item} className={`hero-anim-up hero-delay-${(index % 4) + 1}`}>
                 <span>0{index + 1}</span>
                 <h3>{item}</h3>
                 <p>Una etapa clave en el camino hacia ExpoJuy 2026.</p>
@@ -243,9 +247,9 @@ export function ExhibitorsPage() {
         Organizaciones de múltiples sectores reunidas para
         mostrar, aprender y conectar.
       </PageHero>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container">
-          <div className="exhibitors-filter-bar">
+          <div className="exhibitors-filter-bar hero-anim-up hero-delay-1">
             <div className="filter-search-box">
               <Search
                 className="filter-search-icon"
@@ -285,13 +289,13 @@ export function ExhibitorsPage() {
             </div>
           </div>
 
-          <p className="result-count">{list.length} resultados</p>
+          <p className="result-count hero-anim-left hero-delay-2">{list.length} resultados</p>
 
           {list.length ? (
             <div className="cards-grid exhibitors-grid">
-              {list.map((e) => (
+              {list.map((e, index) => (
                 <article
-                  className="card exhibitor-card"
+                  className={`card exhibitor-card hero-anim-up hero-delay-${(index % 6) + 1}`}
                   key={e.id}
                 >
                   <figure className="exhibitor-media">
@@ -427,10 +431,10 @@ export function AgendaPage() {
         Actividades organizadas en cuatro jornadas de
         intercambio, aprendizaje y vinculación.
       </PageHero>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container">
           <div
-            className="chip-filters"
+            className="chip-filters hero-anim-up hero-delay-1"
             aria-label="Filtrar agenda por día"
           >
             {['Todos', 'Día 1', 'Día 2', 'Día 3', 'Día 4'].map((item) => (
@@ -443,17 +447,17 @@ export function AgendaPage() {
               </button>
             ))}
           </div>
-          <p className="result-count">
+          <p className="result-count hero-anim-left hero-delay-2">
             <Bookmark size={17} /> Mi agenda: {favorites.length} actividades
           </p>
           {list.length ? (
             <div className="agenda-list full">
-              {list.map((a) => {
+              {list.map((a, index) => {
                 const isLive = a.day.startsWith('Día 1') && a.time === '10:00'
                 return (
                   <article
                     key={a.id}
-                    className={isLive ? 'is-live' : ''}
+                    className={`${isLive ? 'is-live' : ''} hero-anim-left hero-delay-${(index % 4) + 1}`}
                   >
                     <time>
                       <span>{a.day}</span>
@@ -532,10 +536,10 @@ export function NewsPage() {
         Noticias y contenidos de muestra para anticipar la experiencia ExpoJuy
         2026.
       </PageHero>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container">
           <div
-            className="chip-filters"
+            className="chip-filters hero-anim-up hero-delay-1"
             aria-label="Filtrar novedades por categoría"
           >
             {[
@@ -558,7 +562,7 @@ export function NewsPage() {
           <div className="news-grid listing">
             {visible.map((n, i) => (
               <article
-                className={i === 0 ? 'featured' : ''}
+                className={`${i === 0 ? 'featured' : ''} hero-anim-up hero-delay-${(i % 3) + 1}`}
                 key={n.id}
               >
                 <div className="news-art">
@@ -595,16 +599,18 @@ export function NewsDetailPage() {
       >
         {item.excerpt}
       </PageHero>
-      <article className="article container">
-        <Link to="/novedades">← Volver a novedades</Link>
-        <p>
-          ExpoJuy pone en conversación a quienes producen, investigan,
-          emprenden y transforman en Jujuy y la región.
-        </p>
-        <p>
-          Esta nota reúne novedades, historias y recursos para acompañar la
-          experiencia de quienes participan del encuentro.
-        </p>
+      <article className="article container reveal-group">
+        <div className="hero-anim-up hero-delay-1">
+          <Link to="/novedades">← Volver a novedades</Link>
+          <p>
+            ExpoJuy pone en conversación a quienes producen, investigan,
+            emprenden y transforman en Jujuy y la región.
+          </p>
+          <p>
+            Esta nota reúne novedades, historias y recursos para acompañar la
+            experiencia de quienes participan del encuentro.
+          </p>
+        </div>
       </article>
     </>
   )
@@ -677,10 +683,10 @@ export function VenueMapPage() {
       <PageHero title="Un mapa para explorar conexiones">
         Recorré los espacios del predio y anticipá tu experiencia.
       </PageHero>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container">
           <div
-            className="chip-filters"
+            className="chip-filters hero-anim-up hero-delay-1"
             aria-label="Filtrar espacios del mapa"
           >
             {categories.map((category) => (
@@ -695,7 +701,7 @@ export function VenueMapPage() {
             ))}
           </div>
 
-          <div className="map-layout">
+          <div className="map-layout hero-anim-up hero-delay-2">
             <div className="interactive-map-frame">
               <div className="map-frame-header" aria-hidden="true">
                 <span className="map-frame-chip">
@@ -780,8 +786,8 @@ export function VenueMapPage() {
           </div>
 
           {/* SECCIÓN CÓMO LLEGAR REDISEÑADA (ESTILO HIGH-END BENTO) */}
-          <section className="venue-location-section">
-            <div className="venue-location-head">
+          <section className="venue-location-section reveal-group">
+            <div className="venue-location-head hero-anim-left hero-delay-1">
               <div className="venue-location-lead">
                 <h2>Cómo llegar a ExpoJuy 2026</h2>
                 <p>
@@ -811,7 +817,7 @@ export function VenueMapPage() {
 
             <div className="venue-bento-grid">
               {/* Tarjetas de movilidad y transporte */}
-              <div className="venue-transport-cards">
+              <div className="venue-transport-cards hero-anim-left hero-delay-2">
                 {transportOptions.map((opt) => {
                   const OptIcon = opt.icon
                   return (
@@ -830,7 +836,7 @@ export function VenueMapPage() {
               </div>
 
               {/* Canvas de Google Maps con Double-Bezel e islas de acción */}
-              <div className="venue-map-bezel">
+              <div className="venue-map-bezel hero-anim-right hero-delay-2">
                 <div className="venue-map-core">
                   <div className="map-floating-chip">
                     <span className="pulse-dot" />
@@ -900,9 +906,9 @@ export function SponsorsPage() {
         Empresas, instituciones y organizaciones que acompañan el desarrollo
         productivo y la experiencia de ExpoJuy.
       </PageHero>
-      <section className="section sponsors-page">
+      <section className="section sponsors-page reveal-group">
         <div className="container">
-          <header className="sponsors-header">
+          <header className="sponsors-header hero-anim-left hero-delay-1">
             <div>
               <p className="eyebrow">RED DE AUSPICIANTES</p>
               <h2>Marcas que apuestan por Jujuy</h2>
@@ -916,12 +922,12 @@ export function SponsorsPage() {
             className="sponsor-logo-grid"
             aria-label="Auspiciantes de ExpoJuy 2026"
           >
-            {sponsors.map((sponsor) => {
+            {sponsors.map((sponsor, index) => {
               const mark = sponsorMarks[sponsor.name]
               const isCamComEx = sponsor.name === 'CamComEx Jujuy'
               return (
                 <article
-                  className={`sponsor-logo-card sponsor-logo-${mark.variant}`}
+                  className={`sponsor-logo-card sponsor-logo-${mark.variant} hero-anim-up hero-delay-${(index % 4) + 1}`}
                   key={sponsor.id}
                 >
                   {isCamComEx ? (
@@ -950,16 +956,16 @@ export function SponsorsPage() {
           </div>
         </div>
       </section>
-      <section className="final-cta">
+      <section className="final-cta reveal-group">
         <div className="container final-cta-container">
-          <div className="final-cta-text">
+          <div className="final-cta-text hero-anim-left hero-delay-1">
             <Users className="final-cta-icon" />
             <div>
               <p className="eyebrow">PARTICIPACIÓN</p>
               <h2>Tu empresa también puede acompañar ExpoJuy</h2>
             </div>
           </div>
-          <div className="button-row final-cta-actions">
+          <div className="button-row final-cta-actions hero-anim-right hero-delay-2">
             <LinkButton to="/contacto?tipo=sponsor" variant="light">
               Quiero acompañar ExpoJuy <ArrowRight size={17} />
             </LinkButton>
@@ -1018,11 +1024,11 @@ export function ContactPage() {
       <PageHero title="Abramos una conversación">
         Contanos cómo te gustaría participar.
       </PageHero>
-      <section className="section">
+      <section className="section reveal-group">
         <div className="container form-layout">
           <form
             id="formulario"
-            className="form-card"
+            className="form-card hero-anim-left hero-delay-1"
             onSubmit={submit}
             noValidate
           >
@@ -1177,7 +1183,7 @@ export function ContactPage() {
               </>
             )}
           </form>
-          <aside className="contact-aside">
+          <aside className="contact-aside hero-anim-right hero-delay-2">
             <h2 className="contact-aside-title">Encontrá el canal indicado</h2>
             <div className="contact-quick-links">
               {[
@@ -1263,10 +1269,10 @@ export function FaqPage() {
       <PageHero title="Preguntas frecuentes">
         Información y respuestas claras para resolver tus dudas sobre ExpoJuy 2026.
       </PageHero>
-      <section className="section faq-section">
+      <section className="section faq-section reveal-group">
         <div className="container narrow">
           {/* Barra de búsqueda con el mismo estilo minimalista que en Expositores */}
-          <div className="faq-filter-area">
+          <div className="faq-filter-area hero-anim-up hero-delay-1">
             <div className="filter-search-box faq-search-box">
               <Search className="filter-search-icon" aria-hidden="true" />
               <input
@@ -1293,12 +1299,12 @@ export function FaqPage() {
           {/* Acordeón interactivo con iconos minimalistas y animación fluida */}
           {list.length > 0 ? (
             <div className="faq-accordion" role="region" aria-label="Listado de preguntas frecuentes">
-              {list.map((f) => {
+              {list.map((f, index) => {
                 const isOpen = open === f.id
                 return (
                   <article
                     key={f.id}
-                    className={`faq-card ${isOpen ? 'is-open' : ''}`}
+                    className={`faq-card ${isOpen ? 'is-open' : ''} hero-anim-up hero-delay-${(index % 4) + 1}`}
                   >
                     <h3>
                       <button

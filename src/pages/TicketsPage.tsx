@@ -5,4 +5,91 @@ import { Button, PageHero } from '../components/ui';
 import { OrderSummary, money } from '../components/OrderSummary';
 import { tickets } from '../data/tickets';
 import { useCart } from '../hooks/useCart';
-export function TicketsPage(){const{add,items}=useCart();const nav=useNavigate();const[quantities,setQuantities]=useState<Record<string,number>>({});return <><PageHero title="Elegí cómo vivir ExpoJuy 2026">Pases para visitantes, estudiantes, profesionales, empresas y toda la comunidad.</PageHero><section className="section"><div className="container"><div className="ticket-layout"><div className="ticket-grid">{tickets.map(ticket=>{const q=quantities[ticket.id]??1;return <article className="ticket-card" key={ticket.id}><div className="ticket-top"><span>{ticket.availability}</span><strong>{money(ticket.price)}</strong></div><h2>{ticket.name}</h2><p>{ticket.description}</p><ul>{ticket.benefits.map(b=><li key={b}><Check/>{b}</li>)}</ul><small>{ticket.validity}</small><div className="ticket-actions"><div className="qty"><button onClick={()=>setQuantities(x=>({...x,[ticket.id]:Math.max(1,q-1)}))} aria-label={`Disminuir cantidad de ${ticket.name}`}><Minus/></button><span>{q}</span><button onClick={()=>setQuantities(x=>({...x,[ticket.id]:q+1}))} aria-label={`Aumentar cantidad de ${ticket.name}`}><Plus/></button></div><Button onClick={()=>add(ticket,q)}>Agregar</Button></div></article>})}</div><OrderSummary action={<Button className="wide" disabled={!items.length} onClick={()=>nav('/checkout')}>Continuar al pago</Button>}/></div></div></section></>}
+export function TicketsPage() {
+  const { add, items } = useCart()
+  const nav = useNavigate()
+  const [quantities, setQuantities] = useState<Record<string, number>>({})
+
+  return (
+    <>
+      <PageHero title="Elegí cómo vivir ExpoJuy 2026">
+        Pases para visitantes, estudiantes, profesionales, empresas y toda la comunidad.
+      </PageHero>
+      <section className="section reveal-group">
+        <div className="container">
+          <div className="ticket-layout">
+            <div className="ticket-grid">
+              {tickets.map((ticket, index) => {
+                const q = quantities[ticket.id] ?? 1
+                return (
+                  <article
+                    className={`ticket-card hero-anim-up hero-delay-${(index % 4) + 1}`}
+                    key={ticket.id}
+                  >
+                    <div className="ticket-top">
+                      <span>{ticket.availability}</span>
+                      <strong>{money(ticket.price)}</strong>
+                    </div>
+                    <h2>{ticket.name}</h2>
+                    <p>{ticket.description}</p>
+                    <ul>
+                      {ticket.benefits.map((b) => (
+                        <li key={b}>
+                          <Check />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                    <small>{ticket.validity}</small>
+                    <div className="ticket-actions">
+                      <div className="qty">
+                        <button
+                          onClick={() =>
+                            setQuantities((x) => ({
+                              ...x,
+                              [ticket.id]: Math.max(1, q - 1),
+                            }))
+                          }
+                          aria-label={`Disminuir cantidad de ${ticket.name}`}
+                        >
+                          <Minus />
+                        </button>
+                        <span>{q}</span>
+                        <button
+                          onClick={() =>
+                            setQuantities((x) => ({
+                              ...x,
+                              [ticket.id]: q + 1,
+                            }))
+                          }
+                          aria-label={`Aumentar cantidad de ${ticket.name}`}
+                        >
+                          <Plus />
+                        </button>
+                      </div>
+                      <Button onClick={() => add(ticket, q)}>Agregar</Button>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
+            <div className="hero-anim-right hero-delay-2">
+              <OrderSummary
+                action={
+                  <Button
+                    className="wide"
+                    disabled={!items.length}
+                    onClick={() => nav('/checkout')}
+                  >
+                    Continuar al pago
+                  </Button>
+                }
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
