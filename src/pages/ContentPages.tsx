@@ -43,6 +43,7 @@ import { news } from '../data/news'
 import { readStorage } from '../lib/storage'
 import { aboutContent } from '../data/about'
 import { camcomexLogo } from '../assets/brand'
+import { expoValores } from '../assets/valores'
 import {
   Badge,
   Button,
@@ -52,29 +53,98 @@ import {
   SectionHeading,
 } from '../components/ui'
 
+const aboutValueDescriptions = [
+  'Explorar nuevas soluciones para una región que proyecta su futuro.',
+  'Compartir herramientas, talento y conectividad que amplían capacidades.',
+  'Visibilizar lo que Jujuy produce, transforma y pone en movimiento.',
+  'Convertir capacidades locales en oportunidades con proyección.',
+  'Abrir conversaciones y negocios entre empresas y sectores.',
+  'Conectar investigación, formación y talento con desafíos reales.',
+] as const
+
+const aboutValueIcons = [
+  Lightbulb,
+  Compass,
+  Presentation,
+  Building2,
+  Users,
+  Sparkles,
+] as const
+
+type AboutValueItem = {
+  value: (typeof aboutContent.values)[number]
+  visual: (typeof expoValores)[number]
+  description: string
+  Icon: (typeof aboutValueIcons)[number]
+}
+
+const aboutValueItems: AboutValueItem[] = aboutContent.values.map(
+  (value, index) => ({
+    value,
+    visual: expoValores[index],
+    description: aboutValueDescriptions[index],
+    Icon: aboutValueIcons[index],
+  }),
+)
+
 export function AboutPage() {
   return (
     <>
       <PageHero title={aboutContent.hero.title}>
         {aboutContent.hero.description}
       </PageHero>
-      <section className="section">
-        <div className="container split">
-          <div>
+      <section
+        className="about-purpose"
+        aria-label="Propósito y valores"
+      >
+        <div className="container about-purpose-layout">
+          <div className="about-purpose-copy">
             <SectionHeading
               eyebrow="PROPÓSITO"
               title={aboutContent.purpose.title}
             />
             <p className="lead">{aboutContent.purpose.description}</p>
           </div>
-          <div className="values-grid">
-            {aboutContent.values.map((value) => (
-              <div key={value}>
-                <Sparkles />
-                <h3>{value}</h3>
-                <p>Un valor que guía la construcción colectiva de ExpoJuy.</p>
-              </div>
-            ))}
+          <div className="about-purpose-visual">
+            <div
+              className="about-purpose-signpost"
+              aria-hidden="true"
+            >
+              <strong>06</strong>
+              <span>{' / ejes para una mirada común'}</span>
+            </div>
+            <div className="about-values-grid">
+              {aboutValueItems.map((item, index) => {
+                const { Icon } = item
+
+                return (
+                  <article
+                    className={`about-value-card ${index === 0 ? 'is-featured' : index === aboutValueItems.length - 1 ? 'is-tail' : 'is-compact'}`}
+                    key={item.value}
+                  >
+                    <img
+                      className="about-value-image"
+                      src={item.visual.image}
+                      alt=""
+                    />
+                    <div className="about-value-scrim" aria-hidden="true" />
+                    <div className="about-value-content">
+                      <Icon
+                        className="about-value-icon"
+                        aria-hidden="true"
+                      />
+                      <div>
+                        <span className="about-value-number">
+                          {item.visual.num}
+                        </span>
+                        <h3>{item.value}</h3>
+                        <p>{item.description}</p>
+                      </div>
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>
